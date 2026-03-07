@@ -3,12 +3,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { X, DownloadSimple } from '@phosphor-icons/react'
 import QRCodeStyling from 'qr-code-styling'
-import { myTicketsService } from '@/services/myTicketsService'
+import { MyTicket, myTicketsService } from '@/services/myTicketsService'
 
-export default function QRModal({ ingresso, onClose }) {
-  const qrRef                         = useRef<HTMLDivElement>(null)
+interface QRModalProps {
+  ingresso: MyTicket
+  onClose: () => void
+}
+
+export default function QRModal({ ingresso, onClose }: QRModalProps) {
+  const qrRef = useRef<HTMLDivElement>(null)
   const [downloading, setDownloading] = useState(false)
-  const [error, setError]             = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!qrRef.current || !ingresso.qrCode) return
@@ -63,7 +68,6 @@ export default function QRModal({ ingresso, onClose }) {
         className="bg-white rounded-[24px] p-6 w-full max-w-sm flex flex-col items-center gap-5 animate-in zoom-in-95"
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex items-start justify-between w-full gap-3">
           <div className="min-w-0">
             <p className="font-bricolage text-[17px] font-extrabold text-[#0A0A0A] leading-tight truncate">
@@ -82,12 +86,10 @@ export default function QRModal({ ingresso, onClose }) {
           </button>
         </div>
 
-        {/* QR Code */}
         <div className="w-52 h-52 bg-white rounded-[20px] border border-[#E0E0D8] flex items-center justify-center p-3 shadow-sm">
           <div ref={qrRef} />
         </div>
 
-        {/* Código legível */}
         <p className="font-body text-[11px] font-bold text-[#9A9A8F] tracking-[0.14em] uppercase">
           {ingresso.qrCode}
         </p>
