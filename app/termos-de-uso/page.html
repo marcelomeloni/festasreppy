@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termos de Uso — Reppy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-primary:       #1BFF11;
+      --color-primary-dark:  #0FD40A;
+      --color-black:         #0A0A0A;
+      --color-off-white:     #F7F7F2;
+      --color-red:           #FF2D2D;
+      --color-purple:        #8B2FFF;
+      --color-gray-100:      #F0F0EB;
+      --color-gray-200:      #E0E0D8;
+      --color-gray-400:      #9A9A8F;
+      --color-gray-600:      #5C5C52;
+      --font-display:        "DM Sans", sans-serif;
+      --font-body:           "Plus Jakarta Sans", sans-serif;
+      --radius-pill:         100px;
+      --radius-card-sm:      16px;
+      --radius-card-md:      20px;
+      --radius-card-lg:      28px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--color-off-white);
+      color: var(--color-black);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--color-off-white);
+      border-bottom: 1px solid var(--color-gray-200);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--color-black);
+      text-decoration: none;
+      letter-spacing: -1px;
+    }
+
+    .nav-back {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-gray-600);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--color-black); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--color-black);
+      padding: 80px 32px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(27,255,17,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(27,255,17,0.1);
+      border: 1px solid rgba(27,255,17,0.25);
+      color: var(--color-primary);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(40px, 6vw, 64px);
+      color: #fff;
+      line-height: 0.95;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--color-primary);
+    }
+
+    .hero-meta {
+      font-size: 14px;
+      color: var(--color-gray-400);
+      font-family: var(--font-display);
+      font-weight: 500;
+    }
+
+    /* ── SUMMARY BOX ── */
+    .summary-section {
+      max-width: 780px;
+      margin: 48px auto;
+      padding: 0 32px;
+    }
+
+    .summary-box {
+      background: var(--color-black);
+      border-radius: var(--radius-card-lg);
+      padding: 32px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-box::after {
+      content: "";
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(27,255,17,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .summary-box h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .summary-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--color-gray-100);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .summary-list li::before {
+      content: "✓";
+      color: var(--color-primary);
+      font-weight: 800;
+      font-family: var(--font-display);
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── INDEX ── */
+    .index-section {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      padding: 0 32px;
+    }
+
+    .index-label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-gray-400);
+      margin-bottom: 16px;
+    }
+
+    .index-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .index-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--color-gray-100);
+      border-radius: var(--radius-card-sm);
+      text-decoration: none;
+      color: var(--color-black);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s, transform 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .index-item:hover {
+      background: var(--color-gray-200);
+      transform: translateY(-1px);
+    }
+
+    .index-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-gray-400);
+      min-width: 20px;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 32px 120px;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 64px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .section-num {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-off-white);
+      background: var(--color-black);
+      padding: 6px 10px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .section-num.green {
+      background: var(--color-primary);
+      color: var(--color-black);
+    }
+
+    .section h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+      color: var(--color-black);
+    }
+
+    .section p {
+      font-size: 15px;
+      color: #2a2a2a;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    /* ── SUBSECTION ── */
+    .subsection {
+      margin-top: 28px;
+    }
+
+    .subsection h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--color-black);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subsection h3::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background: var(--color-primary);
+      border-radius: 2px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--color-gray-100);
+      border-radius: var(--radius-card-md);
+      padding: 24px 28px;
+      margin: 20px 0;
+      border: 1px solid var(--color-gray-200);
+    }
+
+    .card.dark {
+      background: var(--color-black);
+      border-color: transparent;
+    }
+
+    .card.dark p, .card.dark li {
+      color: var(--color-gray-100);
+    }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius-card-sm);
+      border: 1px solid var(--color-gray-200);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead tr {
+      background: var(--color-black);
+    }
+
+    thead th {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-gray-400);
+      padding: 14px 16px;
+      text-align: left;
+    }
+
+    tbody tr {
+      border-top: 1px solid var(--color-gray-200);
+      transition: background 0.1s;
+    }
+
+    tbody tr:hover { background: var(--color-gray-100); }
+
+    tbody td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #2a2a2a;
+      vertical-align: top;
+    }
+
+    tbody td:first-child {
+      font-weight: 600;
+      font-family: var(--font-display);
+    }
+
+    /* ── LIST ── */
+    .styled-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .styled-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: #2a2a2a;
+      line-height: 1.6;
+    }
+
+    .styled-list li::before {
+      content: "→";
+      color: var(--color-primary-dark);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── HIGHLIGHT ── */
+    .highlight {
+      background: rgba(27,255,17,0.08);
+      border-left: 3px solid var(--color-primary);
+      border-radius: 0 var(--radius-card-sm) var(--radius-card-sm) 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: var(--color-gray-600);
+      font-style: italic;
+    }
+
+    .alert {
+      background: rgba(255,45,45,0.06);
+      border-left: 3px solid var(--color-red);
+      border-radius: 0 var(--radius-card-sm) var(--radius-card-sm) 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #5a1010;
+    }
+
+    /* ── TAG ── */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    .tag-green { background: rgba(27,255,17,0.15); color: #0a6b00; }
+    .tag-black { background: var(--color-black); color: #fff; }
+    .tag-red   { background: rgba(255,45,45,0.12); color: #b00000; }
+
+    /* ── CONTACT BOX ── */
+    .contact-box {
+      background: var(--color-black);
+      border-radius: var(--radius-card-lg);
+      padding: 40px;
+      text-align: center;
+      margin-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(27,255,17,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-box h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 28px;
+      color: #fff;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .contact-box p {
+      color: var(--color-gray-400);
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-primary);
+      color: var(--color-black);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--color-black);
+      padding: 32px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--color-gray-600);
+      font-family: var(--font-display);
+      border-top: 1px solid #1a1a1a;
+    }
+
+    footer strong { color: var(--color-gray-400); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .hero { padding: 56px 20px 48px; }
+      .summary-section, .index-section, .content { padding: 0 20px; padding-bottom: 80px; }
+      .index-grid { grid-template-columns: 1fr 1fr; }
+      .contact-box { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">reppy</a>
+  <a href="/" class="nav-back">← Voltar ao app</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📄 Documento legal</div>
+    <h1>Termos<br>de <span>Uso</span></h1>
+    <p class="hero-meta">Última atualização: março de 2026 · Versão 1.0</p>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<div class="summary-section">
+  <div class="summary-box">
+    <h2>O que você precisa saber</h2>
+    <ul class="summary-list">
+      <li>A Reppy conecta universitários a eventos — somos o canal de venda, não o organizador.</li>
+      <li>O Reppy Radar é anônimo até o match mútuo. Seus dados somem após o evento.</li>
+      <li>No Reppy Market, o dinheiro fica em escrow e só vai pro vendedor após confirmação de entrada.</li>
+      <li>O ingresso revendido sempre custa menos que o lote atual em venda. Sem exceção.</li>
+      <li>Problemas no evento (segurança, cancelamento, alvarás) são responsabilidade do organizador.</li>
+      <li>Sua taxa de serviço aparece sempre antes de você confirmar a compra.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ÍNDICE -->
+<div class="index-section">
+  <p class="index-label">Índice</p>
+  <div class="index-grid">
+    <a href="#glossario" class="index-item"><span class="index-num">01</span> Glossário</a>
+    <a href="#plataforma" class="index-item"><span class="index-num">02</span> A plataforma Reppy</a>
+    <a href="#acesso" class="index-item"><span class="index-num">03</span> Acesso e uso</a>
+    <a href="#propriedade" class="index-item"><span class="index-num">04</span> Propriedade intelectual</a>
+    <a href="#organizador" class="index-item"><span class="index-num">05</span> Organizadores</a>
+    <a href="#comprador" class="index-item"><span class="index-num">06</span> Compradores</a>
+    <a href="#reppy" class="index-item"><span class="index-num">07</span> Responsabilidades da Reppy</a>
+    <a href="#pagamento" class="index-item"><span class="index-num">08</span> Pagamento e taxas</a>
+    <a href="#market" class="index-item"><span class="index-num">09</span> Reppy Market</a>
+    <a href="#radar" class="index-item"><span class="index-num">10</span> Reppy Radar</a>
+    <a href="#ranks" class="index-item"><span class="index-num">11</span> Reppy Ranks</a>
+    <a href="#cancelamento" class="index-item"><span class="index-num">12</span> Cancelamento e reembolso</a>
+    <a href="#privacidade" class="index-item"><span class="index-num">13</span> Privacidade e LGPD</a>
+    <a href="#penalidades" class="index-item"><span class="index-num">14</span> Penalidades</a>
+    <a href="#alteracoes" class="index-item"><span class="index-num">15</span> Alterações nos termos</a>
+    <a href="#foro" class="index-item"><span class="index-num">16</span> Foro e legislação</a>
+    <a href="#contato" class="index-item"><span class="index-num">17</span> Contato</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- 1. GLOSSÁRIO -->
+  <section class="section" id="glossario">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Glossário</h2>
+    </div>
+    <p>Antes de tudo, alinhando os termos que aparecem por aqui:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Termo</th>
+            <th>Significado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Usuário</td><td>Qualquer pessoa que acesse ou utilize a plataforma Reppy, seja por app ou web.</td></tr>
+          <tr><td>Comprador</td><td>Usuário que adquire ingressos para eventos na plataforma.</td></tr>
+          <tr><td>Organizador</td><td>Pessoa física ou jurídica (república, produtora, entidade) que cria e vende eventos pela Reppy.</td></tr>
+          <tr><td>Reppy</td><td>A empresa Reppy, gestora da plataforma e do marketplace de ingressos.</td></tr>
+          <tr><td>Reppy Market</td><td>Marketplace secundário onde usuários revendem ingressos que já compraram.</td></tr>
+          <tr><td>Reppy Radar</td><td>Funcionalidade social que permite ver quem mais comprou ingresso pro mesmo evento.</td></tr>
+          <tr><td>Reppy Ranks</td><td>Sistema de progressão baseado em festas confirmadas via check-in.</td></tr>
+          <tr><td>Tap</td><td>Ação discreta de interesse em outro usuário dentro do Reppy Radar.</td></tr>
+          <tr><td>Match</td><td>Quando dois usuários dão tap um no outro simultaneamente.</td></tr>
+          <tr><td>Escrow</td><td>Retenção temporária do valor pago pelo comprador até a confirmação de entrada no evento.</td></tr>
+          <tr><td>Check-in</td><td>Validação do ingresso na portaria do evento via QR Code.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. A PLATAFORMA REPPY -->
+  <section class="section" id="plataforma">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>A plataforma Reppy</h2>
+    </div>
+    <p>A Reppy é um app de festas e experiências universitárias. Nosso papel é conectar universitários a eventos, repúblicas, bares e à vida social acadêmica — funcionando como o hub da vida social universitária brasileira.</p>
+    <p>A Reppy é uma <strong>intermediadora</strong>. Funcionamos como um canal de venda entre organizadores e compradores. Não organizamos, produzimos, contratamos artistas, obtemos alvarás ou nos responsabilizamos por nenhum aspecto da realização dos eventos listados na plataforma. Essa responsabilidade é inteiramente do organizador.</p>
+    <div class="highlight">
+      Comprando um ingresso pela Reppy, você está comprando diretamente do organizador do evento. A Reppy facilita a transação — não é a organizadora da festa.
+    </div>
+  </section>
+
+  <!-- 3. ACESSO E USO -->
+  <section class="section" id="acesso">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Acesso e uso</h2>
+    </div>
+    <p>Para acessar eventos e a página pública da plataforma, nenhum cadastro é necessário. Para comprar ingressos ou criar eventos, você precisará de uma conta com: nome completo, e-mail, CPF, data de nascimento e telefone.</p>
+    <p>O cadastro é permitido a partir dos <strong>16 anos</strong>. Usuários entre 16 e 18 anos devem ter autorização de seus responsáveis legais. O Reppy Radar exige 18 anos completos.</p>
+    <p>Você se compromete a usar a plataforma de acordo com suas finalidades, respeitar os demais usuários e não tentar burlar, hackear ou prejudicar a infraestrutura técnica da Reppy.</p>
+    <div class="subsection">
+      <h3>Proibido na plataforma</h3>
+      <ul class="styled-list">
+        <li>Criar eventos ilegais, discriminatórios ou que violem direitos de terceiros.</li>
+        <li>Tentar revender ingressos fora do Reppy Market ou burlar o preço máximo.</li>
+        <li>Criar perfis falsos ou usar dados de terceiros sem autorização.</li>
+        <li>Enviar spam, vírus ou tentar ataques de qualquer tipo ao sistema.</li>
+        <li>Reproduzir conteúdo da plataforma sem autorização expressa da Reppy.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. PROPRIEDADE INTELECTUAL -->
+  <section class="section" id="propriedade">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Propriedade intelectual</h2>
+    </div>
+    <p>A marca Reppy, o logotipo, o design da plataforma, os textos, os sistemas e todos os elementos da interface são protegidos pela Lei de Propriedade Industrial (Lei nº 9.279/96) e pela Lei de Direitos Autorais (Lei nº 9.610/98).</p>
+    <p>O uso da plataforma não transfere ao usuário ou organizador nenhum direito de propriedade intelectual. O acesso é pessoal, individual e intransferível.</p>
+  </section>
+
+  <!-- 5. ORGANIZADORES -->
+  <section class="section" id="organizador">
+    <div class="section-header">
+      <span class="section-num green">05</span>
+      <h2>Responsabilidades dos organizadores</h2>
+    </div>
+    <p>Ao publicar um evento na Reppy, o organizador assume integralmente as obrigações abaixo:</p>
+    <div class="subsection">
+      <h3>Sobre o evento</h3>
+      <ul class="styled-list">
+        <li>Responsabilidade total pelo evento: segurança, alvarás, licenças, capacidade do local, contratação de profissionais e cumprimento de legislação municipal, estadual e federal.</li>
+        <li>Publicar informações completas e verídicas: local, data, horário, valores, atrações, restrição de faixa etária e política de cancelamento.</li>
+        <li>Eventos com "local a definir" devem ter o local confirmado com no mínimo 7 dias de antecedência. Caso contrário, a Reppy pode suspender ou remover o evento.</li>
+        <li>Comunicar cancelamentos e adiamentos diretamente aos compradores com a maior antecedência possível.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Sobre vendas e taxas</h3>
+      <ul class="styled-list">
+        <li>O organizador aceita a estrutura de taxas vigente antes de publicar o evento. A taxa aparece explicitamente no dashboard antes de qualquer publicação.</li>
+        <li>O repasse dos valores arrecadados é realizado conforme o cronograma da plataforma, após dedução da taxa de serviço.</li>
+        <li>Em caso de chargeback solicitado pelo comprador por problemas no evento, o valor é estornado ao comprador e descontado do repasse ao organizador.</li>
+        <li>O organizador pode ativar ou desativar o Reppy Market para seu evento a qualquer momento antes do início das vendas secundárias.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Sobre o conteúdo publicado</h3>
+      <ul class="styled-list">
+        <li>É vedado publicar eventos com conteúdo ilegal, racista, discriminatório, ameaçador ou que incite ódio.</li>
+        <li>O organizador garante que possui todos os direitos e autorizações necessárias sobre o conteúdo publicado (músicas, imagens, marcas de terceiros).</li>
+        <li>Variações de lote (preço e quantidade) são de responsabilidade do organizador. A Reppy não intervém nessa definição.</li>
+      </ul>
+    </div>
+    <div class="highlight">
+      A Reppy fornece o app de leitura de QR Code para a portaria. É responsabilidade do organizador contratar profissional habilitado para operá-lo.
+    </div>
+  </section>
+
+  <!-- 6. COMPRADORES -->
+  <section class="section" id="comprador">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Responsabilidades dos compradores</h2>
+    </div>
+    <p>Ao comprar um ingresso pela Reppy, você confirma que:</p>
+    <ul class="styled-list">
+      <li>Tem pelo menos 16 anos (ou 18 anos para funcionalidades sociais).</li>
+      <li>As informações fornecidas no cadastro são verdadeiras.</li>
+      <li>Está ciente de que a Reppy é intermediadora — problemas relacionados ao evento em si devem ser tratados com o organizador.</li>
+      <li>Autoriza a Reppy a compartilhar seus dados necessários com o organizador para fins de validação do ingresso.</li>
+      <li>Entende que a transferência do ingresso a terceiros só é permitida pelo Reppy Market, conforme as regras descritas na seção 9.</li>
+    </ul>
+  </section>
+
+  <!-- 7. RESPONSABILIDADES DA REPPY -->
+  <section class="section" id="reppy">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>Responsabilidades da Reppy</h2>
+    </div>
+    <p>A Reppy se responsabiliza por:</p>
+    <ul class="styled-list">
+      <li>Manter a infraestrutura técnica da plataforma funcionando e disponível.</li>
+      <li>Processar pagamentos com segurança, diretamente ou via parceiros (ex: Abacatepay).</li>
+      <li>Emitir e validar os QR Codes dos ingressos.</li>
+      <li>Garantir que a taxa cobrada seja exibida ao organizador antes da publicação e ao comprador antes da confirmação.</li>
+      <li>Executar a lógica do escrow no Reppy Market conforme descrito na seção 9.</li>
+      <li>Realizar o estorno integral ao comprador em caso de cancelamento do evento pelo organizador.</li>
+    </ul>
+    <div class="alert">
+      <strong>A Reppy não se responsabiliza por:</strong> cancelamento ou alteração de eventos pelo organizador, qualidade do evento, segurança no local, conteúdo publicado pelos organizadores, ou problemas decorrentes de links externos presentes nas páginas de eventos.
+    </div>
+  </section>
+
+  <!-- 8. PAGAMENTO E TAXAS -->
+  <section class="section" id="pagamento">
+    <div class="section-header">
+      <span class="section-num green">08</span>
+      <h2>Pagamento e taxas</h2>
+    </div>
+    <p>A Reppy cobra uma taxa de serviço sobre cada ingresso vendido. Essa taxa é cobrada do organizador — <strong>o comprador nunca paga taxa extra</strong> além do valor do ingresso.</p>
+    <div class="subsection">
+      <h3>Estrutura de taxas</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Faixa de preço</th>
+              <th>Taxa permanente</th>
+              <th>Quem paga</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Até R$10</td><td>10%</td><td>Organizador</td></tr>
+            <tr><td>R$11 – R$14</td><td>8%</td><td>Organizador</td></tr>
+            <tr><td>R$15 ou mais</td><td>7%</td><td>Organizador</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p>Eventos estratégicos selecionados pela Reppy podem receber <strong>taxa promocional</strong> temporária (entre 4% e 6%). A taxa exata é exibida no dashboard antes da publicação. Após o período promocional, o evento migra automaticamente para a taxa permanente.</p>
+    <p>A transição de taxa promocional para permanente será comunicada ao organizador com aviso prévio dentro da plataforma.</p>
+    <div class="subsection">
+      <h3>Repasse ao organizador</h3>
+      <ul class="styled-list">
+        <li>O valor arrecadado (líquido da taxa Reppy) fica disponível conforme o cronograma definido pela plataforma para o evento.</li>
+        <li>Chargebacks comprovados por falha no evento são deduzidos do repasse ao organizador.</li>
+        <li>Todos os dados de vendas e repasses estão disponíveis no dashboard do organizador em tempo real.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Formas de pagamento</h3>
+      <p>Cartão de crédito e Pix. O pagamento via Pix deve ser confirmado em até 30 minutos após a geração do código, caso contrário a reserva é cancelada automaticamente.</p>
+    </div>
+  </section>
+
+  <!-- 9. REPPY MARKET -->
+  <section class="section" id="market">
+    <div class="section-header">
+      <span class="section-num green">09</span>
+      <h2>Reppy Market</h2>
+    </div>
+    <p>O Reppy Market é o marketplace oficial de revenda de ingressos dentro da plataforma. É a única forma autorizada de transferir um ingresso para outra pessoa.</p>
+    <div class="subsection">
+      <h3>Regra central do preço</h3>
+      <div class="card dark">
+        <p>O ingresso revendido precisa obrigatoriamente custar <strong style="color: var(--color-primary)">menos que o preço do lote atual em venda</strong>. Se o lote atual está R$40, o valor máximo de revenda é R$39. O sistema bloqueia automaticamente qualquer tentativa de ultrapassar esse limite. Sem exceção.</p>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3>Escrow — como funciona o dinheiro</h3>
+      <p>O valor pago pelo comprador fica retido na plataforma (escrow) até a confirmação de entrada do comprador no evento. O vendedor não recebe antes disso.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Situação</th><th>O que acontece</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Comprador entra na festa (check-in)</td><td>Pix liberado pro vendedor automaticamente</td></tr>
+            <tr><td>Comprador não aparece</td><td>Pix liberado pro vendedor 24h após o fim do evento</td></tr>
+            <tr><td>Evento cancelado pelo organizador</td><td>Estorno integral pro comprador</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3>Taxa do Reppy Market</h3>
+      <p>O comprador não paga taxa adicional. O vendedor paga uma taxa sobre o valor da revenda (entre 8% e 12%), já embutida no preço exibido. A taxa exata é sempre mostrada antes de confirmar a listagem.</p>
+    </div>
+    <div class="subsection">
+      <h3>Transferência do ingresso</h3>
+      <ul class="styled-list">
+        <li>Assim que o pagamento é confirmado, o ingresso é transferido automaticamente para o nome do comprador.</li>
+        <li>O QR Code antigo do vendedor é invalidado imediatamente.</li>
+        <li>Um novo QR Code é gerado vinculado ao CPF do comprador.</li>
+        <li>O organizador vê o nome atualizado na portaria — sem ambiguidade.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Regras para o vendedor</h3>
+      <ul class="styled-list">
+        <li>Só podem ser listados ingressos comprados diretamente na plataforma Reppy.</li>
+        <li>Cada ingresso só pode ser listado uma vez — sem listagem duplicada.</li>
+        <li>Ingressos de eventos já encerrados não podem ser listados.</li>
+        <li>Tentar burlar o limite de preço configura violação dos termos e pode resultar em suspensão da conta.</li>
+      </ul>
+    </div>
+    <div class="highlight">
+      Se o organizador desativar o Reppy Market para o evento dele, o card some da página do evento e nenhuma revenda é possível.
+    </div>
+  </section>
+
+  <!-- 10. REPPY RADAR -->
+  <section class="section" id="radar">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2>Reppy Radar</h2>
+    </div>
+    <p>O Reppy Radar é uma funcionalidade social desbloqueada após a compra do ingresso. Permite ver quem mais vai no mesmo evento e dar taps discretos de interesse. Não é um app de relacionamento — é contexto social com hora marcada.</p>
+    <div class="subsection">
+      <h3>Anonimato e privacidade</h3>
+      <ul class="styled-list">
+        <li>O tap é anônimo — a pessoa não é notificada quando você tapa nela.</li>
+        <li>A notificação só acontece em caso de match mútuo (os dois taparam um no outro).</li>
+        <li>A Reppy não garante que a outra pessoa vá responder ou que o match aconteça.</li>
+        <li>O perfil no Radar exibe apenas: foto, primeiro nome e Instagram (opcional). Nenhuma outra informação é compartilhada.</li>
+        <li>Os dados do Radar são visíveis apenas para quem comprou ingresso do mesmo evento.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Modo Radar — opt-in</h3>
+      <p>O Modo Radar é desativado por padrão. Para aparecer na lista de outros usuários, é necessário ativá-lo manualmente no ingresso. Quem não ativa pode ver os outros, mas não aparece para ninguém.</p>
+    </div>
+    <div class="subsection">
+      <h3>Retenção de dados — "tudo some depois da festa"</h3>
+      <div class="card dark">
+        <p>Os dados do Reppy Radar — perfis, taps e matches — são <strong style="color: var(--color-primary)">excluídos automaticamente em até 48 horas após o encerramento do evento</strong>. Após esse prazo, nenhuma informação sobre quem participou do Radar do evento é mantida na plataforma.</p>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3>Proteções contra assédio</h3>
+      <ul class="styled-list">
+        <li>O tap nunca gera notificação unilateral — apenas o match mútuo notifica ambos.</li>
+        <li>Bloqueio disponível direto do card de qualquer usuário, sem fricção.</li>
+        <li>Usuário bloqueado desaparece permanentemente do Radar para quem bloqueou.</li>
+        <li>O uso do Radar exige 18 anos completos.</li>
+      </ul>
+    </div>
+    <p>A Reppy não realiza verificação de antecedentes dos usuários. Toda interação social entre usuários é de responsabilidade dos próprios usuários. Encontros pessoais decorrentes do Radar ocorrem por conta e risco dos envolvidos.</p>
+  </section>
+
+  <!-- 11. REPPY RANKS -->
+  <section class="section" id="ranks">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <h2>Reppy Ranks</h2>
+    </div>
+    <p>O Reppy Ranks é o sistema de progressão baseado em festas confirmadas via check-in. Quanto mais rolês você for usando a Reppy, maior o seu rank.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Nível</th><th>Nome</th><th>Rolês necessários</th><th>Visibilidade</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Bixo</td><td>1–4</td><td>Só você vê</td></tr>
+          <tr><td>2</td><td>Iniciante</td><td>5–9</td><td>Só você vê</td></tr>
+          <tr><td>3</td><td>Veterano</td><td>10–17</td><td>Público no perfil e Radar</td></tr>
+          <tr><td>4</td><td>Veterano+</td><td>18–29</td><td>Público no perfil e Radar</td></tr>
+          <tr><td>5</td><td>Veterano Mor</td><td>30+</td><td>Público no perfil e Radar</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="subsection">
+      <h3>Regras do rank</h3>
+      <ul class="styled-list">
+        <li>Só contam festas confirmadas via check-in na portaria — comprar e não ir não conta.</li>
+        <li>Ingressos recebidos via transferência no Reppy Market não contam pro rank de quem recebeu.</li>
+        <li>O rank nunca regride, mesmo com conta inativa.</li>
+        <li>O rank não é transferível entre contas.</li>
+        <li>A Reppy se reserva o direito de ajustar os critérios e limiares de cada nível com aviso prévio de pelo menos 15 dias dentro da plataforma.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 12. CANCELAMENTO E REEMBOLSO -->
+  <section class="section" id="cancelamento">
+    <div class="section-header">
+      <span class="section-num green">12</span>
+      <h2>Cancelamento e reembolso</h2>
+    </div>
+    <p>A política de cancelamento é definida pelo organizador no momento da criação do evento. Existem três opções:</p>
+    <div class="card">
+      <strong style="font-family: var(--font-display); font-size: 15px;">Opção A — Cancelamento dentro de 7 dias e até 48h antes</strong>
+      <p style="margin-top: 8px;">O comprador pode cancelar dentro de 7 dias corridos após a compra E com mais de 48h de antecedência do evento. Fora desse prazo, é necessário contato direto com o organizador.</p>
+    </div>
+    <div class="card">
+      <strong style="font-family: var(--font-display); font-size: 15px;">Opção B — Cancelamento até a data do evento</strong>
+      <p style="margin-top: 8px;">O comprador pode cancelar a qualquer momento antes do evento. Após a data, é necessário contato com o organizador.</p>
+    </div>
+    <div class="card">
+      <strong style="font-family: var(--font-display); font-size: 15px;">Opção C — Apenas via organizador</strong>
+      <p style="margin-top: 8px;">Todo cancelamento deve ser tratado diretamente com o organizador do evento.</p>
+    </div>
+    <div class="subsection">
+      <h3>Direito de arrependimento (CDC)</h3>
+      <p>De acordo com o art. 49 do Código de Defesa do Consumidor (Lei 8.078/1990), compras realizadas fora do estabelecimento comercial — como pela internet — garantem ao consumidor o direito de arrependimento em até 7 dias corridos após a compra, com reembolso integral. Esse direito prevalece sobre qualquer política de cancelamento escolhida pelo organizador.</p>
+    </div>
+    <div class="subsection">
+      <h3>Cancelamento do evento pelo organizador</h3>
+      <p>Se o evento for cancelado pelo organizador, todos os compradores recebem reembolso integral automaticamente, incluindo casos de ingressos revendidos via Reppy Market.</p>
+    </div>
+  </section>
+
+  <!-- 13. PRIVACIDADE E LGPD -->
+  <section class="section" id="privacidade">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <h2>Privacidade e LGPD</h2>
+    </div>
+    <p>A Reppy trata seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD).</p>
+    <div class="subsection">
+      <h3>Dados coletados e uso</h3>
+      <ul class="styled-list">
+        <li>Dados de cadastro (nome, CPF, e-mail, telefone) são usados para identificação e processamento de pagamentos.</li>
+        <li>Dados do Reppy Radar (foto, primeiro nome, Instagram) são compartilhados apenas com compradores do mesmo evento e excluídos em até 48h após o encerramento do evento.</li>
+        <li>Dados de compra são compartilhados com o organizador do evento para fins de validação de ingresso.</li>
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Seus direitos</h3>
+      <ul class="styled-list">
+        <li>Solicitar acesso, correção ou exclusão dos seus dados a qualquer momento.</li>
+        <li>Revogar o consentimento para uso de dados não essenciais.</li>
+        <li>Solicitar a portabilidade dos seus dados.</li>
+      </ul>
+      <p style="margin-top: 12px;">Para exercer seus direitos, entre em contato pelo e-mail listado na seção 17.</p>
+    </div>
+    <p>Para mais detalhes sobre como tratamos seus dados, consulte nossa <a href="/privacidade" style="color: var(--color-primary-dark); font-weight: 600;">Política de Privacidade</a>.</p>
+  </section>
+
+  <!-- 14. PENALIDADES -->
+  <section class="section" id="penalidades">
+    <div class="section-header">
+      <span class="section-num">14</span>
+      <h2>Penalidades</h2>
+    </div>
+    <p>A Reppy pode, a qualquer momento e a seu critério, advertir, suspender temporariamente ou banir permanentemente qualquer usuário ou organizador que:</p>
+    <ul class="styled-list">
+      <li>Violar qualquer cláusula destes termos.</li>
+      <li>Tentar burlar o preço máximo do Reppy Market.</li>
+      <li>Criar eventos com conteúdo ilegal, discriminatório ou enganoso.</li>
+      <li>Publicar informações falsas no cadastro ou nas páginas de eventos.</li>
+      <li>Realizar qualquer ação fraudulenta envolvendo ingressos, pagamentos ou identidade de terceiros.</li>
+      <li>Assediar ou ameaçar outros usuários dentro ou fora da plataforma.</li>
+    </ul>
+    <p>A Reppy também pode cancelar qualquer transação que identifique como suspeita ou fraudulenta, a seu critério exclusivo.</p>
+  </section>
+
+  <!-- 15. ALTERAÇÕES -->
+  <section class="section" id="alteracoes">
+    <div class="section-header">
+      <span class="section-num">15</span>
+      <h2>Alterações nos termos</h2>
+    </div>
+    <p>A Reppy pode atualizar estes termos a qualquer momento. Alterações relevantes — especialmente em taxas — serão comunicadas ao organizador com aviso prévio por escrito dentro da plataforma.</p>
+    <p>Para mudança de taxa promocional para permanente, o aviso será dado com pelo menos 15 dias de antecedência.</p>
+    <p>O uso continuado da plataforma após a publicação de novos termos implica na aceitação das alterações. Se você não concordar com os novos termos, deve encerrar sua conta e interromper o uso da plataforma.</p>
+  </section>
+
+  <!-- 16. FORO E LEGISLAÇÃO -->
+  <section class="section" id="foro">
+    <div class="section-header">
+      <span class="section-num">16</span>
+      <h2>Foro e legislação aplicável</h2>
+    </div>
+    <p>Estes termos são regidos pelas leis da República Federativa do Brasil. Em caso de conflito, fica eleito o foro da comarca de <strong>[cidade-sede da Reppy]</strong>, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
+    <p>A relação entre a Reppy e os usuários é regulada, especialmente, pelo Código de Defesa do Consumidor (Lei 8.078/1990), pelo Marco Civil da Internet (Lei 12.965/2014) e pela Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+  </section>
+
+  <!-- 17. CONTATO -->
+  <section class="section" id="contato">
+    <div class="contact-box">
+      <h2>Ainda com dúvida?</h2>
+      <p>Fala com a gente. A resposta vem rápido.</p>
+      <a href="mailto:oi@reppy.app" class="btn-primary">✉ oi@reppy.app</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>reppy</strong> · Termos de Uso · Versão 1.0 · Março 2026</p>
+  <p style="margin-top: 8px;">A Reppy não é responsável pela organização e segurança nos eventos.</p>
+</footer>
+
+</body>
+</html>
