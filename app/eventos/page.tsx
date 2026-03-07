@@ -18,7 +18,10 @@ export default function EventosPage() {
   const [loading, setLoading] = useState(true);
   
   // Pegamos a location (que agora tem lat e lng) e o status do contexto
-  const { location, status } = useLocation();
+  const locationCtx = useLocation();
+const location = locationCtx?.location ?? null;
+const status = locationCtx?.status ?? "idle";
+
 
   useEffect(() => {
     // Só faz a requisição se o LocationContext já tentou pegar as coordenadas
