@@ -18,8 +18,8 @@ const DOC_LABELS: Record<string, string> = {
   rg: "RG",
   cnh: "CNH",
   passaporte: "Passaporte",
-  ctps: "CTPS",
-  titulo_eleitor: "Título de Eleitor",
+  matricula: "Matricula universitaria",
+  cpf: "CPF",
 };
 
 function formatDoc(doc: string): string {

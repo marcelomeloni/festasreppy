@@ -10,6 +10,14 @@ interface QRModalProps {
   onClose: () => void
 }
 
+const isMobile = () =>
+  typeof navigator !== 'undefined' &&
+  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+
+// A4 a 96dpi: 794 × 1123px
+const A4_WIDTH_PX  = 794
+const A4_HEIGHT_PX = 1123
+
 export default function QRModal({ ingresso, onClose }: QRModalProps) {
   const qrRef = useRef<HTMLDivElement>(null)
   const [downloading, setDownloading] = useState(false)
@@ -23,24 +31,11 @@ export default function QRModal({ ingresso, onClose }: QRModalProps) {
       height: 192,
       type: 'svg',
       data: ingresso.qrCode,
-      dotsOptions: {
-        color: '#0A0A0A',
-        type: 'rounded',
-      },
-      cornersSquareOptions: {
-        type: 'extra-rounded',
-        color: '#0A0A0A',
-      },
-      cornersDotOptions: {
-        type: 'dot',
-        color: '#1BFF11',
-      },
-      backgroundOptions: {
-        color: '#FFFFFF',
-      },
-      qrOptions: {
-        errorCorrectionLevel: 'H',
-      },
+      dotsOptions: { color: '#0A0A0A', type: 'rounded' },
+      cornersSquareOptions: { type: 'extra-rounded', color: '#0A0A0A' },
+      cornersDotOptions: { type: 'dot', color: '#1BFF11' },
+      backgroundOptions: { color: '#FFFFFF' },
+      qrOptions: { errorCorrectionLevel: 'H' },
     })
 
     qrRef.current.innerHTML = ''
@@ -51,9 +46,37 @@ export default function QRModal({ ingresso, onClose }: QRModalProps) {
     try {
       setDownloading(true)
       setError(null)
-      await myTicketsService.downloadTicket(ingresso.id)
-    } catch {
-      setError('Não foi possível baixar o ingresso. Tente novamente.')
+
+      const response = await myTicketsService.fetchTicketHTML(ingresso.id)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const html = await response.text()
+
+      const pdfBlob = await generatePDF(html)
+      const fileName = `ingresso-${ingresso.qrCode}.pdf`
+
+      if (isMobile() && typeof navigator.share === 'function') {
+        const file = new File([pdfBlob], fileName, { type: 'application/pdf' })
+        if (typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title: `Ingresso — ${ingresso.evento.nome}` })
+            return
+          } catch (e) {
+            if (e instanceof Error && e.name === 'AbortError') return
+          }
+        }
+      }
+
+      const url = URL.createObjectURL(pdfBlob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = fileName
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error('handleDownload:', err)
+      setError('Não foi possível gerar o PDF. Tente novamente.')
     } finally {
       setDownloading(false)
     }
@@ -108,9 +131,53 @@ export default function QRModal({ ingresso, onClose }: QRModalProps) {
           className="flex items-center justify-center gap-2 w-full bg-[#0A0A0A] text-white font-bricolage text-[16px] font-extrabold uppercase py-3.5 rounded-full hover:opacity-80 transition-opacity mt-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <DownloadSimple size={18} weight="bold" />
-          {downloading ? 'Baixando...' : 'Baixar Ingresso'}
+          {downloading ? 'Gerando PDF...' : 'Baixar Ingresso'}
         </button>
       </div>
     </div>
   )
+}
+
+async function generatePDF(html: string): Promise<Blob> {
+  const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+    import('html2canvas'),
+    import('jspdf'),
+  ])
+
+  const container = document.createElement('div')
+  container.style.cssText = [
+    'position:fixed',
+    'top:-99999px',
+    'left:-99999px',
+    `width:${A4_WIDTH_PX}px`,
+    `height:${A4_HEIGHT_PX}px`,
+    'background:#0A0A0A',
+    'overflow:hidden',
+  ].join(';')
+  container.innerHTML = html
+  document.body.appendChild(container)
+
+  await document.fonts.ready
+  await new Promise(r => setTimeout(r, 1500))
+
+  const canvas = await html2canvas(container, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: false,
+    backgroundColor: '#0A0A0A',
+    logging: false,
+    windowWidth: A4_WIDTH_PX,
+    windowHeight: A4_HEIGHT_PX,
+    width: A4_WIDTH_PX,
+    height: A4_HEIGHT_PX,
+  })
+
+  document.body.removeChild(container)
+
+  const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+  const pageW = pdf.internal.pageSize.getWidth()
+  const pageH = pdf.internal.pageSize.getHeight()
+  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pageW, pageH)
+
+  return pdf.output('blob')
 }
