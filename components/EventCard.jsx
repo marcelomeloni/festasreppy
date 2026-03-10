@@ -38,9 +38,10 @@ export default function EventCard({ event }) {
 
         <span className="flex items-center gap-1.5 font-body text-[13px] font-medium text-gray-400 mt-auto pt-1 border-t border-gray-100">
           <MapPin size={13} weight="bold" className="shrink-0 text-gray-300" />
-          {event.venue.split(",")[0]}
+          {event.city}
         </span>
       </div>
     </Link>
   );
+
 }
