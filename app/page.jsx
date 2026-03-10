@@ -70,9 +70,7 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "180px" }} />
 
-        {/* green glow */}
-        <div className="absolute top-[-160px] right-[-120px] w-[560px] h-[560px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(27,255,17,0.18) 0%, transparent 65%)" }} />
+       
 
         <div className="max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col justify-center gap-10 py-20">
 
