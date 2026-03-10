@@ -36,12 +36,13 @@ export default function EventCard({ event }) {
           {event.date} · {event.time}
         </p>
 
-        <span className="flex items-center gap-1.5 font-body text-[13px] font-medium text-gray-400 mt-auto pt-1 border-t border-gray-100">
-          <MapPin size={13} weight="bold" className="shrink-0 text-gray-300" />
-          {event.city}
-        </span>
+     <span className="flex items-center gap-1.5 font-body text-[13px] font-medium text-gray-400 mt-auto pt-1 border-t border-gray-100">
+  <MapPin size={13} weight="bold" className="shrink-0 text-gray-300" />
+  {event.city}{event.state ? ` - ${event.state}` : ""}
+</span>
       </div>
     </Link>
   );
 
 }
+
