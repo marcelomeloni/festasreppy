@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { InstagramLogo, TiktokLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
+import { InstagramLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
 // Footer enxuto: Apenas o que importa para o usuário agora
 const FOOTER_LINKS = {
@@ -10,17 +10,17 @@ const FOOTER_LINKS = {
   ],
   "Para Organizadores": [
     { href: "/criar-evento", label: "Venda seus ingressos" },
+    { href: "/taxas",        label: "Taxas" },
   ],
   Legal: [
-    { href: "/termos-de-uso",      label: "Termos de uso" },
-    { href: "/privacidade", label: "Privacidade" },
+    { href: "/termos-de-uso", label: "Termos de uso" },
+    { href: "/privacidade",   label: "Privacidade" },
   ],
 };
 
 const SOCIALS = [
-  { href: "https://instagram.com", Icon: InstagramLogo, label: "Instagram" },
-  { href: "https://tiktok.com",    Icon: TiktokLogo,    label: "TikTok" },
-  { href: "https://twitter.com",   Icon: XLogo,         label: "X" },
+  { href: "https://instagram.com/reppy.app", Icon: InstagramLogo, label: "Instagram" },
+  { href: "https://twitter.com/reppybr",     Icon: XLogo,         label: "X" },
 ];
 
 export default function Footer() {
