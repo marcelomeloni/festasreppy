@@ -230,26 +230,7 @@ export default function TaxasClient() {
               O que a REPPY <span className="text-[#1BFF11]">cobra</span>.
             </h2>
 
-            {/* provocative subtitle + inline badges */}
-            <div className="mb-8 sm:mb-12 max-w-2xl">
-              <p className="font-body text-[14px] sm:text-[15px] text-[#5C5C52] leading-[1.9]">
-                Não vamos citar nomes. Mas você já sabe quem é o{" "}
-                <span className="inline-flex items-center gap-1 align-middle">
-                  <BadgeCheers size={18} />
-                  <span className="text-[#E74C3C] font-semibold text-[12px]">vermelho</span>
-                </span>
-                , quem é o{" "}
-                <span className="inline-flex items-center gap-1 align-middle">
-                  <BadgeSympla size={18} />
-                  <span className="text-[#00AEEF] font-semibold text-[12px]">azul clarinho</span>
-                </span>{" "}
-                e quem é o{" "}
-                <span className="inline-flex items-center gap-1 align-middle">
-                  <BadgeEventiza size={18} />
-                  <span className="text-[#2563EB] font-semibold text-[12px]">ticket azul</span>
-                </span>
-              </p>
-            </div>
+           
 
             {/* presets — scrollable on mobile */}
             <div className="flex flex-wrap gap-2 mb-8 sm:mb-12">
@@ -488,3 +469,4 @@ export default function TaxasClient() {
     </>
   );
 }
+
