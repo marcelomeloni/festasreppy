@@ -9,7 +9,7 @@ function formatBRL(cents) {
   });
 }
 
-export default function OrderSummary({ cart, onCouponApply }) {
+export default function OrderSummary({ cart, onCouponApply, onCouponRemove }) {
   const [couponCode, setCouponCode]   = useState("");
   const [couponState, setCouponState] = useState("idle"); // "idle" | "loading" | "valid" | "invalid"
   const [couponError, setCouponError] = useState("");
@@ -41,6 +41,7 @@ export default function OrderSummary({ cart, onCouponApply }) {
     setCouponCode("");
     setCouponState("idle");
     setCouponError("");
+    onCouponRemove?.(); // ← avisa o pai para zerar desconto e appliedCoupon
   }
 
   return (

@@ -56,6 +56,7 @@ export interface CouponValidateResponse {
   valid:          boolean
   discountType?:  "percentage" | "fixed"
   discountValue?: number
+  discountAmount?: number
   message?:       string
 }
 
