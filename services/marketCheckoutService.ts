@@ -34,7 +34,7 @@ export interface MarketPixStatusResponse {
   status: "PENDING" | "PAID" | "EXPIRED" | "CANCELLED";
 }
 
-export const MARKET_PLATFORM_FEE = 1.6;
+export const MARKET_PLATFORM_FEE = 3.3;
 
 export function encodeMarketCart(cart: MarketCartPayload): string {
   return btoa(encodeURIComponent(JSON.stringify(cart)));

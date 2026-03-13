@@ -172,7 +172,7 @@ export function EventSidebar({
                   <p className="font-body text-[11px] text-gray-500 mt-0.5">
                     {groupedMarketLots.length} tipos a partir de{" "}
                     <span className="font-bold text-black">
-                     {formatPrice(marketMin).free ? "Gratuito" : formatBRL(marketMin + 0.8)}
+                     {formatPrice(marketMin).free ? "Gratuito" : formatBRL(marketMin + 3.3)}
                     </span>
                   </p>
                 </div>

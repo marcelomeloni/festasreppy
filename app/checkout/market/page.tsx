@@ -81,21 +81,15 @@ function MarketOrderSummary({ cart }: { cart: MarketCartPayload }) {
           </div>
         </div>
         <span className="font-bricolage font-extrabold text-black text-[18px] shrink-0">
-          {formatBRL(cart.sellerPrice)}
+          {formatBRL(cart.total)}
         </span>
       </div>
 
       <div className="h-px bg-gray-200 mb-4" />
 
       <div className="flex flex-col gap-2 mb-4">
-        <div className="flex justify-between font-body text-[13px]">
-          <span className="text-gray-400">Ingresso</span>
-          <span className="text-black">{formatBRL(cart.sellerPrice)}</span>
-        </div>
-        <div className="flex justify-between font-body text-[13px]">
-          <span className="text-gray-400">Taxa de transferência</span>
-          <span className="text-black">{formatBRL(cart.platformFee)}</span>
-        </div>
+     
+     
       </div>
 
       <div className="flex justify-between items-center px-4 py-3 rounded-[12px] bg-black mb-3">
