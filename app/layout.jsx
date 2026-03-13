@@ -24,7 +24,7 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata = {
-  title: "Reppy — rolês universitários",
+  title: "Reppy",
   description: "O hub da vida social universitária brasileira.",
 };
 

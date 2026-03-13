@@ -1,8 +1,5 @@
 import { apiService } from "./apiService";
 
-// ==========================================
-// TIPAGENS DA HOME
-// ==========================================
 export interface EventCard {
   id: string;
   title: string;
@@ -20,9 +17,6 @@ export interface SectionResponse {
   events: EventCard[];
 }
 
-// ==========================================
-// TIPAGENS DOS DETALHES DO EVENTO
-// ==========================================
 export interface EventAddress {
   street: string;
   city: string;
@@ -56,7 +50,6 @@ export interface EventData {
   image_url: string;
   instagram?: string;
   date: string;
-  time: string;
   locationName: string;
   address: EventAddress;
   policies: EventPolicies;
@@ -65,33 +58,40 @@ export interface EventData {
 }
 
 export interface OfficialLot {
-  id:                 string;
-  title:              string;
-  subtitle:           string;
-  price:              number;
-  feePayer:           "buyer" | "organizer";
-  feePercentage:      number;  // decimal por lote, calculado no backend (ex: 0.07 = 7%)
-  available:          boolean;
+  id: string;
+  title: string;
+  subtitle: string;
+  price: number;
+  feePayer: "buyer" | "organizer";
+  feePercentage: number;
+  available: boolean;
   unavailableReason?: "sold_out" | "expired" | "not_started" | "";
+}
+
+export interface OfficialCategory {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  lots: OfficialLot[];
 }
 
 export interface MarketLot {
   id: string;
   title: string;
   subtitle: string;
+  categoryName: string;
   price: number;
+  sellerId: string;
 }
 
 export interface EventDetailResponse {
   event: EventData;
-  officialLots: OfficialLot[];
+  categories: OfficialCategory[];
   marketLots: MarketLot[];
 }
 
-// ==========================================
-// NORMALIZAÇÃO
-// ==========================================
-function n(v: unknown): number {
+function toNumber(v: unknown): number {
   const parsed = Number(v);
   return isFinite(parsed) ? parsed : 0;
 }
@@ -99,13 +99,20 @@ function n(v: unknown): number {
 function normalizeOfficialLot(lot: OfficialLot): OfficialLot {
   return {
     ...lot,
-    price:         n(lot.price),
-    feePercentage: n(lot.feePercentage),
+    price: toNumber(lot.price),
+    feePercentage: toNumber(lot.feePercentage),
+  };
+}
+
+function normalizeCategory(cat: OfficialCategory): OfficialCategory {
+  return {
+    ...cat,
+    lots: (cat.lots ?? []).map(normalizeOfficialLot),
   };
 }
 
 function normalizeMarketLot(lot: MarketLot): MarketLot {
-  return { ...lot, price: n(lot.price) };
+  return { ...lot, price: toNumber(lot.price) };
 }
 
 function normalizeEventDetail(raw: EventDetailResponse): EventDetailResponse {
@@ -114,25 +121,22 @@ function normalizeEventDetail(raw: EventDetailResponse): EventDetailResponse {
     event: {
       ...raw.event,
       platformFee: {
-        percentage: n(raw.event?.platformFee?.percentage),
-        fixed:      n(raw.event?.platformFee?.fixed),
+        percentage: toNumber(raw.event?.platformFee?.percentage),
+        fixed: toNumber(raw.event?.platformFee?.fixed),
       },
     },
-    officialLots: (raw.officialLots ?? []).map(normalizeOfficialLot),
-    marketLots:   (raw.marketLots   ?? []).map(normalizeMarketLot),
+    categories: (raw.categories ?? []).map(normalizeCategory),
+    marketLots: (raw.marketLots ?? []).map(normalizeMarketLot),
   };
 }
 
-// ==========================================
-// SERVICE
-// ==========================================
 export const eventsService = {
   getHomeEvents: async (
     lat?: number | null,
     lng?: number | null
   ): Promise<SectionResponse[]> => {
-    let endpoint = "/client/home-events";
-    if (lat && lng) endpoint += `?lat=${lat}&lng=${lng}`;
+    const endpoint =
+      lat && lng ? `/client/home-events?lat=${lat}&lng=${lng}` : "/client/home-events";
     return apiService.get<SectionResponse[]>(endpoint);
   },
 

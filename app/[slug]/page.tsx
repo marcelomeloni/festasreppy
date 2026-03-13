@@ -35,7 +35,7 @@ export default async function EventoPage(
     notFound();
   }
 
-  const { event, officialLots, marketLots } = eventData;
+  const { event, categories, marketLots } = eventData;
 
   return (
     <main className="min-h-screen bg-off-white pb-20">
@@ -46,7 +46,7 @@ export default async function EventoPage(
 
         <EventSidebar
           event={event}
-          officialLots={officialLots}
+          categories={categories}
           marketLots={marketLots}
           platformFee={event.platformFee}
         />

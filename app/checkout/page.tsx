@@ -26,7 +26,7 @@ type FormErrors  = Partial<Record<keyof FormData, string>>
 
 type CheckoutStep = "form" | "pix" | "expired" | "confirmed" | "paid"
 
-const emailRe        = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const emailRe          = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const POLL_INTERVAL_MS = 3000
 
 function validate(data: FormData): FormErrors {
@@ -45,8 +45,8 @@ function validate(data: FormData): FormErrors {
 }
 
 const TRUST_BADGES = [
-  { icon: LockSimple,          text: "Criptografado TLS"   },
-  { icon: SealCheck,           text: "Compra garantida"    },
+  { icon: LockSimple,            text: "Criptografado TLS"    },
+  { icon: SealCheck,             text: "Compra garantida"     },
   { icon: ArrowCounterClockwise, text: "Política de reembolso" },
 ]
 
@@ -54,7 +54,6 @@ function cartToEventSummary(cart: CartPayload) {
   return {
     title:     cart.eventTitle,
     date:      cart.eventDate,
-    time:      cart.eventTime,
     venue:     cart.eventVenue,
     organizer: cart.eventOrganizer,
   }
@@ -68,10 +67,10 @@ function cartToOrderSummaryBase(cart: CartPayload) {
       quantity: i.qty,
       price:    Math.round(i.finalPrice * 100),
     })),
-    subtotal:   Math.round(cart.subtotal  * 100),
-    totalFees:  Math.round(cart.totalFee  * 100),
-    total:      Math.round(cart.grandTotal * 100),
-    discount:   0,
+    subtotal:  Math.round(cart.subtotal   * 100),
+    totalFees: Math.round(cart.totalFee   * 100),
+    total:     Math.round(cart.grandTotal * 100),
+    discount:  0,
   }
 }
 
@@ -93,13 +92,13 @@ function CheckoutContent() {
     email: user?.email ?? "",
     cpf:   "",
   })
-  const [touched, setTouched] = useState<FormTouched>({ nome: false, email: false, cpf: false })
+  const [touched, setTouched]               = useState<FormTouched>({ nome: false, email: false, cpf: false })
   const [loading, setLoading]               = useState(false)
   const [step, setStep]                     = useState<CheckoutStep>("form")
   const [pixData, setPixData]               = useState<{ code: string } | null>(null)
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null)
   const [appliedCoupon, setAppliedCoupon]   = useState<string | null>(null)
-  const [discount, setDiscount]             = useState(0)          // ← em centavos
+  const [discount, setDiscount]             = useState(0)
   const [confirmedEmail, setConfirmedEmail] = useState<string | null>(null)
   const [serverCPFError, setServerCPFError]     = useState<string | null>(null)
   const [serverEmailError, setServerEmailError] = useState<string | null>(null)
@@ -119,15 +118,12 @@ function CheckoutContent() {
           clearInterval(pollingRef.current!)
           setStep("expired")
         }
-      } catch {
-        // Ignored intentionally for retry logic
-      }
+      } catch {}
     }, POLL_INTERVAL_MS)
 
     return () => { if (pollingRef.current) clearInterval(pollingRef.current) }
   }, [step, currentOrderId])
 
-  // ── orderSummary recalcula quando o desconto muda ─────────────────────────
   const orderSummary = useMemo(() => {
     if (!cart) return null
     const base = cartToOrderSummaryBase(cart)
@@ -152,7 +148,7 @@ function CheckoutContent() {
 
   async function handleCouponApply(code: string) {
     if (!cart) return { valid: false, message: "Carrinho inválido." }
-    const result = await checkoutService.validateCoupon(cart.eventId, code)
+    const result = await checkoutService.validateCoupon(cart.eventId, code, cart.subtotal)
     if (result.valid) {
       setAppliedCoupon(code)
       const subtotalCents = Math.round(cart.subtotal * 100)
@@ -273,7 +269,6 @@ function CheckoutContent() {
       )}
 
       <div className="flex flex-col gap-4">
-
         {step === "paid" && (
           <PaymentSuccessScreen
             cart={cart}
@@ -393,7 +388,6 @@ function CheckoutContent() {
             ))}
           </div>
         )}
-
       </div>
     </main>
   )

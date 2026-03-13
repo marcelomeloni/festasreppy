@@ -2,7 +2,7 @@
 // components/checkout/PixPayment.jsx
 
 import { useEffect, useRef, useState } from "react";
-import { PIX_EXPIRY_SECONDS } from "@/lib/mock";
+const PIX_EXPIRY_SECONDS = 900;
 
 function generateQR(canvas, text) {
   // Implementação simples de QR code via canvas

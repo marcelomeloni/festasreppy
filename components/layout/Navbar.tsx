@@ -65,17 +65,17 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-off-white sm:relative sm:top-auto">
       <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-3 md:gap-5">
 
-        {/* Logo */}
-        <Link href="/" className="shrink-0 flex items-center transition-opacity hover:opacity-80">
-          <Image
-            src="/logo_preto.png"
-            alt="Reppy"
-            width={100}
-            height={32}
-            className="h-6 md:h-8 w-auto object-contain"
-            priority
-          />
-        </Link>
+   {/* Logo */}
+<Link href="/" className="shrink-0 flex items-center transition-opacity hover:opacity-80">
+  <Image
+    src="/preto.png"
+    alt="Reppy"
+    width={200}
+    height={64}
+    className="h-14 md:h-10 w-auto object-contain"
+    priority
+  />
+</Link>
 
         {/* Localização — desktop */}
         <div className="hidden md:flex items-center gap-5 shrink-0">

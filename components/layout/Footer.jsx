@@ -35,7 +35,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6 max-w-sm">
             <Link href="/" className="inline-block transition-opacity hover:opacity-80">
               <Image 
-                src="/logo_preto.png" 
+                src="/preto.png" 
                 alt="Reppy" 
                 width={120} 
                 height={38} 
