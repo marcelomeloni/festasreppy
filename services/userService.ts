@@ -1,22 +1,28 @@
-// services/userService.ts
 import { apiService } from "./apiService";
 
 export interface UserProfile {
-  id: string;
-  fullName: string;
-  email: string;
-  cpf: string;        // formatado: 000.000.000-00
-  phone: string;
-  instagram: string;
-  avatarUrl: string;
-  birthDate: string;  // YYYY-MM-DD
+  id:                  string;
+  fullName:            string;
+  email:               string;
+  cpf:                 string;
+  phone:               string;
+  instagram:           string;
+  avatarUrl:           string;
+  birthDate:           string;
   attendedEventsCount: number;
+  pixKey:              string;
+  pixKeyType:          string;
 }
 
 export interface UpdateProfilePayload {
-  fullName: string;
-  phone: string;
+  fullName:  string;
+  phone:     string;
   instagram: string;
+}
+
+export interface UpdatePixKeyPayload {
+  pixKey:     string;
+  pixKeyType: string;
 }
 
 export const userService = {
@@ -26,14 +32,12 @@ export const userService = {
   updateProfile: (userId: string, payload: UpdateProfilePayload) =>
     apiService.patch<{ success: boolean }>(`/client/users/${userId}`, payload),
 
-  // Rota nova para upload da foto de perfil
+  updatePixKey: (userId: string, payload: UpdatePixKeyPayload) =>
+    apiService.patch<{ success: boolean }>(`/client/users/${userId}/pix-key`, payload),
+
   uploadAvatar: async (userId: string, file: File) => {
     const formData = new FormData();
     formData.append("avatar", file);
-
-    // Dica: o seu apiService.post precisa aceitar FormData sem forçar o cabeçalho 
-    // 'Content-Type': 'application/json', pois o navegador define o 'multipart/form-data' 
-    // automaticamente com o boundary correto.
     return apiService.post<{ success: boolean; avatarUrl: string }>(
       `/client/users/${userId}/avatar`,
       formData

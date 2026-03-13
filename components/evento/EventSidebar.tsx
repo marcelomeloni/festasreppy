@@ -372,8 +372,15 @@ export function EventSidebar({
       </div>
 
       {marketOpen && (
-        <MarketModal lots={groupedMarketLots} onClose={() => setMarketOpen(false)} />
-      )}
+  <MarketModal
+    lots={groupedMarketLots}
+    onClose={() => setMarketOpen(false)}
+    eventTitle={event.title}
+    eventDate={event.date ?? ""}
+    eventVenue={event.locationName ?? ""}
+    eventSlug={event.slug}
+  />
+)}
     </>
   );
 }

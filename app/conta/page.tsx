@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { SpinnerGap } from '@phosphor-icons/react'
 import AccountHero   from '@/components/conta/AccountHero'
 import AccountForm   from '@/components/conta/AccountForm'
+import AccountPixKey from '@/components/conta/AccountPixKey'
 import AccountDanger from '@/components/conta/AccountDanger'
 import { supabase, useAuth } from '@/contexts/AuthContext'
 import { userService, type UserProfile } from '@/services/userService'
@@ -12,10 +13,10 @@ import { userService, type UserProfile } from '@/services/userService'
 export default function ContaPage() {
   const router = useRouter()
   const { signOut } = useAuth()
-  const [usuario, setUsuario] = useState<UserProfile | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [saveError, setSaveError] = useState<string | null>(null)
-  const [saveSuccess, setSaveSuccess] = useState(false)
+  const [usuario,      setUsuario]      = useState<UserProfile | null>(null)
+  const [loading,      setLoading]      = useState(true)
+  const [saveError,    setSaveError]    = useState<string | null>(null)
+  const [saveSuccess,  setSaveSuccess]  = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -60,22 +61,35 @@ export default function ContaPage() {
   return (
     <main className="min-h-screen bg-[#F7F7F2] pb-20">
       <div className="max-w-[600px] mx-auto px-4 pt-8 flex flex-col gap-8">
+
         <div>
           <p className="font-body text-[11px] font-bold uppercase tracking-[0.12em] text-[#9A9A8F] mb-1">Configurações</p>
           <h1 className="font-bricolage text-[32px] font-extrabold text-[#0A0A0A] tracking-tight leading-none">Minha conta</h1>
         </div>
+
         <AccountHero usuario={usuario} />
+
         <section className="bg-white rounded-[20px] border-[1.5px] border-[#E0E0D8] p-6">
           <p className="font-body text-[11px] font-bold uppercase tracking-[0.12em] text-[#9A9A8F] mb-6">Dados do perfil</p>
-          {saveError && <p className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-[12px] font-body text-[13px] text-red-600">{saveError}</p>}
+          {saveError   && <p className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-[12px] font-body text-[13px] text-red-600">{saveError}</p>}
           {saveSuccess && <p className="mb-4 px-4 py-3 bg-green-50 border border-green-200 rounded-[12px] font-body text-[13px] text-green-700">Alterações salvas!</p>}
           <AccountForm usuario={usuario} onSave={handleSave} />
         </section>
+
+        <AccountPixKey
+          userId={usuario.id}
+          initialPixKey={usuario.pixKey}
+          initialKeyType={usuario.pixKeyType}
+          onSaved={(payload) => setUsuario((prev) => prev ? { ...prev, ...payload } : prev)}
+        />
+
         <div className="h-px bg-[#E0E0D8]" />
+
         <section>
           <p className="font-body text-[11px] font-bold uppercase tracking-[0.12em] text-[#9A9A8F] mb-3">Conta</p>
           <AccountDanger onLogout={handleLogout} onDeleteAccount={() => console.log('excluir')} />
         </section>
+
       </div>
     </main>
   )

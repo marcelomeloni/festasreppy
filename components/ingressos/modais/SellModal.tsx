@@ -32,7 +32,7 @@ export default function SellModal({ ingresso, onClose }: SellModalProps) {
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   const loteAtual   = ingresso.currentBatchPrice ?? null
-  const precoMaximo = loteAtual !== null ? loteAtual - 0.01 : null
+  const precoMaximo = loteAtual !== null ? loteAtual - 1.6 : null
 
   const handleMoneyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '')
