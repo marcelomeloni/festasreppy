@@ -19,7 +19,7 @@ function ResultItem({ result, onClose }: { result: SearchResult; onClose: () => 
     onClose();
     router.push(
       result.type === "event"
-        ? `/eventos/${result.slug}`
+        ? `/${result.slug}`
         : `/organizador/${result.slug}`
     );
   }
