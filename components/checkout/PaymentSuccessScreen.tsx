@@ -35,11 +35,7 @@ function formatEventDate(raw: string): string {
   return raw
 }
 
-function formatEventTime(raw: string): string {
-  // Aceita "HH:MM:SS" ou "HH:MM" — garante sempre "HH:MM"
-  const match = raw.match(/^(\d{2}):(\d{2})/)
-  return match ? `${match[1]}h${match[2]}` : raw
-}
+
 
 export default function PaymentSuccessScreen({
   cart,
@@ -54,7 +50,7 @@ export default function PaymentSuccessScreen({
     currency: "BRL",
   })
   const formattedDate = formatEventDate(cart.eventDate)
-  const formattedTime = formatEventTime(cart.eventTime)
+ 
 
   return (
     <div className="animate-fadeUp flex flex-col gap-5 py-2">
