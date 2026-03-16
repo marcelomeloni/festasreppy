@@ -1,5 +1,11 @@
 import { apiService } from "./apiService";
 
+export interface SalesSummary {
+  totalWithdrawable: number;
+  totalPending: number;
+  totalReleased: number;
+}
+
 export interface MySaleItem {
   transactionId: string;
   eventTitle:    string;
@@ -15,19 +21,21 @@ export interface MySaleItem {
 }
 
 export interface MySalesResponse {
+  summary: SalesSummary;
   sales: MySaleItem[];
 }
 
 export interface WithdrawResponse {
-  success:   boolean;
-  netAmount: number;
-  pixKey:    string;
+  success:           boolean;
+  withdrawnAmount:   number;
+  transactionsCount: number;
+  pixKey:            string;
 }
 
 export const marketSellerService = {
   getMySales: (): Promise<MySalesResponse> =>
     apiService.get<MySalesResponse>("/client/market/my-sales"),
 
-  withdraw: (transactionId: string): Promise<WithdrawResponse> =>
-    apiService.post<WithdrawResponse>(`/client/market/withdraw/${transactionId}`),
+  withdraw: (): Promise<WithdrawResponse> =>
+    apiService.post<WithdrawResponse>("/client/market/withdraw"),
 };

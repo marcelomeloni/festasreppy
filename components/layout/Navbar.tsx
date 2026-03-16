@@ -72,7 +72,7 @@ export default function Navbar() {
     alt="Reppy"
     width={200}
     height={64}
-    className="h-14 md:h-10 w-auto object-contain"
+    className="h-10 md:h-10 w-auto object-contain"
     priority
   />
 </Link>

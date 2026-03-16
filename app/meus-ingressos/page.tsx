@@ -21,7 +21,6 @@ export default function MeusIngressosPage() {
   return (
     <main className="min-h-screen bg-[#F7F7F2] pb-20">
       <div className="max-w-[600px] mx-auto px-4 pt-8">
-
         <div className="mb-6">
           <p className="font-body text-[11px] font-bold uppercase tracking-[0.12em] text-[#9A9A8F] mb-1">
             Sua conta

@@ -5,10 +5,12 @@ import { Ticket } from '@phosphor-icons/react'
 import TicketCard from './TicketCard'
 import { MyTicket } from '@/services/myTicketsService'
 
+const PAGE_SIZE = 10
+
 interface TicketListProps {
   proximos: MyTicket[]
   passados: MyTicket[]
-  loading: boolean
+  loading:  boolean
 }
 
 function EmptyState({ type }: { type: 'proximos' | 'passados' }) {
@@ -23,8 +25,7 @@ function EmptyState({ type }: { type: 'proximos' | 'passados' }) {
       <p className="font-body text-[13px] text-[#9A9A8F] max-w-[220px]">
         {type === 'proximos'
           ? 'Quando comprar um ingresso, ele aparece aqui.'
-          : 'Os eventos que você foi ficam registrados aqui.'
-        }
+          : 'Os eventos que você foi ficam registrados aqui.'}
       </p>
     </div>
   )
@@ -52,24 +53,41 @@ function SkeletonCard() {
 }
 
 export default function TicketList({ proximos, passados, loading }: TicketListProps) {
-  const [tab, setTab] = useState<'proximos' | 'passados'>('proximos')
+  const [tab, setTab]               = useState<'proximos' | 'passados'>('proximos')
+  const [visibleProximos, setVisibleProximos] = useState(PAGE_SIZE)
+  const [visiblePassados, setVisiblePassados] = useState(PAGE_SIZE)
 
   const tabs = [
     { id: 'proximos' as const, label: 'Próximos', count: proximos.length },
     { id: 'passados' as const, label: 'Passados', count: passados.length },
   ]
 
-  const lista = tab === 'proximos' ? proximos : passados
+  const lista        = tab === 'proximos' ? proximos : passados
+  const visible      = tab === 'proximos' ? visibleProximos : visiblePassados
+  const listaVisible = lista.slice(0, visible)
+  const hasMore      = visible < lista.length
+  const remaining    = lista.length - visible
+
+  function loadMore() {
+    if (tab === 'proximos') {
+      setVisibleProximos(v => v + PAGE_SIZE)
+    } else {
+      setVisiblePassados(v => v + PAGE_SIZE)
+    }
+  }
+
+  function handleTabChange(id: 'proximos' | 'passados') {
+    setTab(id)
+  }
 
   return (
     <div>
-      {/* Tabs */}
       <div className="flex mb-1">
         {tabs.map(t => (
           <button
             key={t.id}
             type="button"
-            onClick={() => setTab(t.id)}
+            onClick={() => handleTabChange(t.id)}
             className={`
               relative font-body text-[15px] font-semibold px-5 py-[14px] border-none bg-transparent cursor-pointer transition-colors
               ${tab === t.id ? 'text-[#0A0A0A]' : 'text-[#9A9A8F] hover:text-[#0A0A0A]'}
@@ -100,11 +118,23 @@ export default function TicketList({ proximos, passados, loading }: TicketListPr
       ) : lista.length === 0 ? (
         <EmptyState type={tab} />
       ) : (
-        <div className="flex flex-col gap-4">
-          {lista.map(ingresso => (
-            <TicketCard key={ingresso.id} ingresso={ingresso} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-col gap-4">
+            {listaVisible.map(ingresso => (
+              <TicketCard key={ingresso.id} ingresso={ingresso} />
+            ))}
+          </div>
+
+          {hasMore && (
+            <button
+              type="button"
+              onClick={loadMore}
+              className="w-full mt-4 py-3 rounded-full font-body text-[13px] font-semibold text-[#5C5C52] bg-[#F0F0EB] hover:bg-[#E0E0D8] border border-[#E0E0D8] transition-colors cursor-pointer"
+            >
+              Ver mais {remaining > PAGE_SIZE ? PAGE_SIZE : remaining} ingressos
+            </button>
+          )}
+        </>
       )}
     </div>
   )
