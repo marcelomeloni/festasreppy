@@ -11,6 +11,8 @@ interface TicketListProps {
   proximos: MyTicket[]
   passados: MyTicket[]
   loading:  boolean
+  /** Recebe o id do ingresso que saiu da conta após uma transferência. */
+  onTicketTransferred?: (ticketId: string) => void
 }
 
 function EmptyState({ type }: { type: 'proximos' | 'passados' }) {
@@ -52,7 +54,7 @@ function SkeletonCard() {
   )
 }
 
-export default function TicketList({ proximos, passados, loading }: TicketListProps) {
+export default function TicketList({ proximos, passados, loading, onTicketTransferred }: TicketListProps) {
   const [tab, setTab]               = useState<'proximos' | 'passados'>('proximos')
   const [visibleProximos, setVisibleProximos] = useState(PAGE_SIZE)
   const [visiblePassados, setVisiblePassados] = useState(PAGE_SIZE)
@@ -121,7 +123,11 @@ export default function TicketList({ proximos, passados, loading }: TicketListPr
         <>
           <div className="flex flex-col gap-4">
             {listaVisible.map(ingresso => (
-              <TicketCard key={ingresso.id} ingresso={ingresso} />
+              <TicketCard
+                key={ingresso.id}
+                ingresso={ingresso}
+                onTransferred={onTicketTransferred ? () => onTicketTransferred(ingresso.id) : undefined}
+              />
             ))}
           </div>
 

@@ -270,12 +270,10 @@ export default function HomePage() {
             tá esperando<br />
             <span className="text-primary">o quê?</span>
           </h2>
-          <p className="font-body text-base text-gray-500 max-w-sm leading-relaxed">
-            Cria sua conta grátis e descobre o que rolê na sua cidade hoje à noite.
-          </p>
+     
           <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
             <Link
-              href="/cadastro"
+              href="/login"
               className="flex items-center gap-2 font-display font-extrabold text-black bg-primary hover:bg-primary-dark px-8 py-4 rounded-pill transition-all hover:scale-[1.02] active:scale-[0.98] tracking-tight text-[15px]"
             >
               criar conta grátis

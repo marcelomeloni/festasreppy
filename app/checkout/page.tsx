@@ -14,6 +14,8 @@ import PaymentSuccessScreen from "@/components/checkout/PaymentSuccessScreen"
 import { decodeCart, checkoutService, CartPayload } from "@/services/checkoutService"
 import { ApiError } from "@/services/apiService"
 import { useAuth } from "@/contexts/AuthContext"
+import { useBuyerProfile } from "@/hooks/useBuyerProfile"
+import { userService } from "@/services/userService"
 
 interface FormData {
   nome:  string
@@ -78,6 +80,7 @@ function CheckoutContent() {
   const router = useRouter()
   const params = useSearchParams()
   const { user } = useAuth()
+  const profile = useBuyerProfile()
 
   const cart = useMemo<CartPayload | null>(() => {
     const raw = params.get("cart")
@@ -87,15 +90,11 @@ function CheckoutContent() {
   const isFree   = (cart?.grandTotal ?? 0) === 0
   const isLogged = !!user
 
-  const [formData, setFormData] = useState<FormData>({
-    nome:  user?.user_metadata?.full_name ?? "",
-    email: user?.email ?? "",
-    cpf:   "",
-  })
+  const [formData, setFormData] = useState<FormData>({ nome: "", email: "", cpf: "" })
   const [touched, setTouched]               = useState<FormTouched>({ nome: false, email: false, cpf: false })
   const [loading, setLoading]               = useState(false)
   const [step, setStep]                     = useState<CheckoutStep>("form")
-  const [pixData, setPixData]               = useState<{ code: string } | null>(null)
+  const [pixData, setPixData]               = useState<{ code: string; qrCode?: string } | null>(null)
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null)
   const [appliedCoupon, setAppliedCoupon]   = useState<string | null>(null)
   const [discount, setDiscount]             = useState(0)
@@ -104,6 +103,18 @@ function CheckoutContent() {
   const [serverEmailError, setServerEmailError] = useState<string | null>(null)
 
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  // Campos que o usuario ja editou: o pre-preenchimento do perfil nunca
+  // sobrescreve o que foi digitado a mao.
+  const dirtyRef = useRef<Partial<Record<keyof FormData, boolean>>>({})
+
+  useEffect(() => {
+    setFormData(prev => ({
+      nome:  dirtyRef.current.nome  ? prev.nome  : profile.nome,
+      email: dirtyRef.current.email ? prev.email : profile.email,
+      cpf:   dirtyRef.current.cpf   ? prev.cpf   : profile.cpf,
+    }))
+  }, [profile.nome, profile.email, profile.cpf])
 
   useEffect(() => {
     if (step !== "pix" || !currentOrderId) return
@@ -140,6 +151,7 @@ function CheckoutContent() {
   const handleChange = (field: keyof FormData, value: string) => {
     if (field === "cpf")   setServerCPFError(null)
     if (field === "email") setServerEmailError(null)
+    dirtyRef.current[field] = true
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
@@ -171,6 +183,20 @@ function CheckoutContent() {
 
     setLoading(true)
     try {
+      // Salva CPF no perfil apenas quando não estiver preenchido
+      if (isLogged && user) {
+        const cpfDigits = formData.cpf.replace(/\D/g, '')
+        const profileCpf = profile?.cpf || ''
+        const profileCpfDigits = profileCpf.replace(/\D/g, '')
+        if (cpfDigits && !profileCpfDigits) {
+          try {
+            await userService.updateProfile(user.id, { cpf: formData.cpf })
+          } catch {
+            // Silencioso - não bloqueia a compra
+          }
+        }
+      }
+
       const order = await checkoutService.createOrder({
         eventId:    cart.eventId,
         couponCode: appliedCoupon ?? undefined,
@@ -192,7 +218,7 @@ function CheckoutContent() {
 
       if (order.pixCode) {
         setCurrentOrderId(order.orderId)
-        setPixData({ code: order.pixCode })
+        setPixData({ code: order.pixCode, qrCode: order.pixQrCode })
         setStep("pix")
       }
     } catch (err) {
@@ -344,6 +370,10 @@ function CheckoutContent() {
                 errors={displayErrors}
                 touched={displayTouched}
                 onBlur={handleBlur}
+                cpfLocked={profile.cpfLocked}
+                cpfHint={
+                  profile.error ?? undefined
+                }
               />
             </div>
 

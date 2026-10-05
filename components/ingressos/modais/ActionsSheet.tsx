@@ -19,7 +19,10 @@ export default function ActionsSheet({ ingresso, onClose, onOpenTransfer, onOpen
       sub: 'Manda pra um amigo pelo CPF',
       onClick: () => { onClose(); onOpenTransfer() },
       danger: false,
-      show: true,
+      // O backend responde 403 quando o lote não permite. Mostrar o botão
+      // só para o usuário descobrir isso depois de digitar um CPF é pior
+      // do que esconder a ação que não vai funcionar.
+      show: ingresso.allowTransfer,
     },
     {
       icon: <Tag size={18} weight="bold" />,
@@ -53,7 +56,11 @@ export default function ActionsSheet({ ingresso, onClose, onOpenTransfer, onOpen
           {ingresso.evento.nome}
         </p>
 
-        {actions.map((a, i) => (
+        {actions.length === 0 ? (
+          <p className="font-body text-[13px] text-[#9A9A8F] text-center px-4 py-6">
+            Nenhuma ação disponível para este ingresso.
+          </p>
+        ) : actions.map((a, i) => (
           <button
             key={i}
             onClick={a.onClick}

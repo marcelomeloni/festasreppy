@@ -40,9 +40,12 @@ function DaysUntilBadge({ days }: { days: number }) {
 
 interface TicketCardProps {
   ingresso: MyTicket
+  /** Acionado depois que um ingresso é transferido com sucesso. Permite
+   *  remover o card da lista sem refazer o fetch inteiro. */
+  onTransferred?: () => void
 }
 
-export default function TicketCard({ ingresso }: TicketCardProps) {
+export default function TicketCard({ ingresso, onTransferred }: TicketCardProps) {
   const [showQR, setShowQR]             = useState(false)
   const [showActions, setShowActions]   = useState(false)
   const [showTransfer, setShowTransfer] = useState(false)
@@ -179,7 +182,13 @@ export default function TicketCard({ ingresso }: TicketCardProps) {
           onOpenRefund={() => setShowRefund(true)}
         />
       )}
-      {showTransfer && <TransferModal ingresso={ingresso} onClose={() => setShowTransfer(false)} />}
+      {showTransfer && (
+        <TransferModal
+          ingresso={ingresso}
+          onClose={() => setShowTransfer(false)}
+          onTransferred={onTransferred}
+        />
+      )}
       {showSell     && <SellModal     ingresso={ingresso} onClose={() => setShowSell(false)}     />}
       {showRefund   && <RefundModal   ingresso={ingresso} onClose={() => setShowRefund(false)}   />}
     </>

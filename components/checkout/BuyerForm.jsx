@@ -1,33 +1,9 @@
 "use client";
 // components/checkout/BuyerForm.jsx
 
-import { useState } from "react";
+import { maskCPF, validateCPF } from "@/lib/authHelpers";
 
-function formatCPF(value) {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-  return digits
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-}
-
-function validateCPF(cpf) {
-  const digits = cpf.replace(/\D/g, "");
-  if (digits.length !== 11) return false;
-  if (/^(\d)\1+$/.test(digits)) return false;
-  let sum = 0;
-  for (let i = 0; i < 9; i++) sum += parseInt(digits[i]) * (10 - i);
-  let rest = (sum * 10) % 11;
-  if (rest === 10 || rest === 11) rest = 0;
-  if (rest !== parseInt(digits[9])) return false;
-  sum = 0;
-  for (let i = 0; i < 10; i++) sum += parseInt(digits[i]) * (11 - i);
-  rest = (sum * 10) % 11;
-  if (rest === 10 || rest === 11) rest = 0;
-  return rest === parseInt(digits[10]);
-}
-
-function InputField({ label, id, type = "text", value, onChange, onBlur, error, placeholder, hint }) {
+function InputField({ label, id, type = "text", value, onChange, onBlur, error, placeholder, hint, readOnly = false }) {
   return (
     <div className="flex flex-col gap-1.5">
       <label
@@ -43,9 +19,11 @@ function InputField({ label, id, type = "text", value, onChange, onBlur, error, 
         onChange={onChange}
         onBlur={onBlur}
         placeholder={placeholder}
+        readOnly={readOnly}
         className={`
           w-full px-4 py-3 font-body text-[15px] text-black bg-white
           border-2 rounded-card-sm outline-none transition-all
+          ${readOnly ? "bg-gray-100 text-gray-600 cursor-not-allowed" : ""}
           ${error ? "border-red shadow-[0_0_0_3px_rgba(255,45,45,0.08)]" : "border-gray-200"}
           focus:shadow-[0_0_0_3px_rgba(27,255,17,0.12)] focus:border-primary focus:outline-none
         `}
@@ -67,7 +45,7 @@ function InputField({ label, id, type = "text", value, onChange, onBlur, error, 
   );
 }
 
-export default function BuyerForm({ data, onChange, errors, touched, onBlur }) {
+export default function BuyerForm({ data, onChange, errors, touched, onBlur, cpfLocked = false, cpfHint }) {
   return (
     <div className="rounded-card-md border border-gray-200 bg-white p-5">
       <div className="flex items-center gap-2 mb-5">
@@ -106,11 +84,17 @@ export default function BuyerForm({ data, onChange, errors, touched, onBlur }) {
           label="CPF"
           id="cpf"
           value={data.cpf}
-          onChange={(e) => onChange("cpf", formatCPF(e.target.value))}
+          onChange={(e) => !cpfLocked && onChange("cpf", maskCPF(e.target.value))}
           onBlur={() => onBlur("cpf")}
           error={touched.cpf ? errors.cpf : null}
           placeholder="000.000.000-00"
-          hint="Necessário para emissão do ingresso"
+          readOnly={cpfLocked}
+          hint={
+            cpfHint ??
+            (cpfLocked
+              ? "Preenchido com o CPF da sua conta"
+              : "Necessário para emissão do ingresso")
+          }
         />
       </div>
 

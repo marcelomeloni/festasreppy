@@ -4,57 +4,6 @@
 import { useEffect, useRef, useState } from "react";
 const PIX_EXPIRY_SECONDS = 900;
 
-function generateQR(canvas, text) {
-  // Implementação simples de QR code via canvas
-  // Em produção, usar uma lib como qrcode.js
-  const ctx = canvas.getContext("2d");
-  const size = canvas.width;
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, size, size);
-  ctx.fillStyle = "#0A0A0A";
-
-  // Simula QR com padrão geométrico baseado no texto (apenas visual mockado)
-  const hash = text.split("").reduce((a, c) => (a + c.charCodeAt(0)) & 0xffffff, 0);
-  const modules = 21;
-  const cellSize = Math.floor((size - 16) / modules);
-  const offset = Math.floor((size - modules * cellSize) / 2);
-
-  // Finder patterns (cantos)
-  const drawFinder = (ox, oy) => {
-    ctx.fillStyle = "#0A0A0A";
-    ctx.fillRect(ox, oy, 7 * cellSize, 7 * cellSize);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(ox + cellSize, oy + cellSize, 5 * cellSize, 5 * cellSize);
-    ctx.fillStyle = "#0A0A0A";
-    ctx.fillRect(ox + 2 * cellSize, oy + 2 * cellSize, 3 * cellSize, 3 * cellSize);
-  };
-  drawFinder(offset, offset);
-  drawFinder(offset + (modules - 7) * cellSize, offset);
-  drawFinder(offset, offset + (modules - 7) * cellSize);
-
-  // Dados mockados (padrão pseudoaleatório baseado no hash)
-  for (let r = 0; r < modules; r++) {
-    for (let c = 0; c < modules; c++) {
-      const inFinder =
-        (r < 8 && c < 8) ||
-        (r < 8 && c >= modules - 8) ||
-        (r >= modules - 8 && c < 8);
-      if (!inFinder) {
-        const val = (hash ^ (r * 17 + c * 31 + r * c)) % 2;
-        if (val) {
-          ctx.fillStyle = "#0A0A0A";
-          ctx.fillRect(
-            offset + c * cellSize,
-            offset + r * cellSize,
-            cellSize - 1,
-            cellSize - 1
-          );
-        }
-      }
-    }
-  }
-}
-
 function CountdownTimer({ seconds, onExpire }) {
   const [remaining, setRemaining] = useState(seconds);
 
@@ -120,14 +69,13 @@ function CountdownTimer({ seconds, onExpire }) {
 }
 
 export default function PixPayment({ pixData, onExpire, isVisible }) {
-  const canvasRef = useRef(null);
   const [copied, setCopied] = useState(false);
+  const [qrLoaded, setQrLoaded] = useState(false);
+  const [qrError, setQrError] = useState(false);
 
-  useEffect(() => {
-    if (canvasRef.current && isVisible) {
-      generateQR(canvasRef.current, pixData.code);
-    }
-  }, [isVisible, pixData.code]);
+  // Handle QR code image load/error
+  const handleQrLoad = () => setQrLoaded(true);
+  const handleQrError = () => setQrError(true);
 
   const handleCopy = async () => {
     try {
@@ -135,11 +83,14 @@ export default function PixPayment({ pixData, onExpire, isVisible }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      // fallback
+      // fallback - silent fail
     }
   };
 
   if (!isVisible) return null;
+
+  // Use real QR code from backend (base64 PNG) or fallback to copy-only mode
+  const hasRealQr = !!pixData.qrCode;
 
   return (
     <div
@@ -177,7 +128,7 @@ export default function PixPayment({ pixData, onExpire, isVisible }) {
           className="flex flex-col gap-2"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          {["Abra o app do seu banco", "Escolha pagar via PIX", "Escaneie o QR Code ou cole o código"].map(
+          {["Abra o app do seu banco", "Escolha pagar via PIX", hasRealQr ? "Escaneie o QR Code" : "Copie o código PIX"].map(
             (step, i) => (
               <li key={i} className="flex items-center gap-2.5 text-[13px]" style={{ color: "#5C5C52" }}>
                 <span
@@ -194,12 +145,56 @@ export default function PixPayment({ pixData, onExpire, isVisible }) {
 
         {/* QR Code */}
         <div className="flex flex-col items-center gap-3">
-          <div
-            className="rounded-[16px] p-4 border border-[#E0E0D8]"
-            style={{ background: "#fff" }}
-          >
-            <canvas ref={canvasRef} width={180} height={180} className="block" />
-          </div>
+          {hasRealQr ? (
+            <div
+              className="rounded-[16px] p-4 border border-[#E0E0D8]"
+              style={{ background: "#fff" }}
+            >
+              <img
+                src={`data:image/png;base64,${pixData.qrCode}`}
+                alt="QR Code PIX"
+                width={180}
+                height={180}
+                className="block"
+                onLoad={handleQrLoad}
+                onError={handleQrError}
+                style={{
+                  opacity: qrLoaded ? 1 : 0,
+                  transition: "opacity 0.3s ease",
+                }}
+              />
+              {!qrLoaded && !qrError && (
+                <div className="w-[180px] h-[180px] flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+              {qrError && (
+                <div className="w-[180px] h-[180px] flex items-center justify-center text-gray-500 text-sm">
+                  Não foi possível carregar o QR Code
+                </div>
+              )}
+            </div>
+          ) : (
+            <div
+              className="rounded-[16px] p-4 border border-[#E0E0D8] bg-gray-50 flex items-center justify-center"
+              style={{ width: 180, height: 180 }}
+            >
+              <div className="text-center">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9A9A8F" strokeWidth="1.5" className="mx-auto mb-2">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                  <rect x="6" y="6" width="1" height="1" />
+                  <rect x="17" y="6" width="1" height="1" />
+                  <rect x="6" y="17" width="1" height="1" />
+                  <rect x="17" y="17" width="1" height="1" />
+                </svg>
+                <p className="text-[12px] text-gray-500">QR indisponível</p>
+                <p className="text-[10px] text-gray-400 mt-1">Use o código abaixo</p>
+              </div>
+            </div>
+          )}
           <CountdownTimer seconds={PIX_EXPIRY_SECONDS} onExpire={onExpire} />
         </div>
 

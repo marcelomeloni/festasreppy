@@ -62,7 +62,6 @@ export default function CompletarRegistroPage() {
   const [cpf, setCpf]                       = useState("");
   const [dataNascimento, setDataNascimento]   = useState("");
   const [telefone, setTelefone]             = useState("");
-  const [userId, setUserId]                 = useState("");
   const [fullName, setFullName]             = useState("");
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [isLoading, setIsLoading]           = useState(false);
@@ -75,14 +74,16 @@ export default function CompletarRegistroPage() {
   useEffect(() => {
     async function loadProfile() {
       const { data } = await supabase.auth.getSession();
-      const uid = data.session?.user?.id;
+      const session = data.session;
+      const uid = session?.user?.id;
       if (!uid) { router.replace("/login"); return; }
 
-      setUserId(uid);
-      setFullName(data.session?.user?.user_metadata?.full_name ?? "");
+      setFullName(session?.user?.user_metadata?.full_name ?? "");
 
       try {
-        const res     = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/client/auth/profile/${uid}`);
+        const res     = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/client/auth/profile/${uid}`, {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
         const profile = await res.json();
         if (profile.hasProfile) { router.replace("/eventos"); return; }
         if (profile.cpf)       setCpf(profile.cpf);
@@ -107,13 +108,19 @@ export default function CompletarRegistroPage() {
     setIsLoading(true);
 
     try {
+      const { data: authData } = await supabase.auth.getSession();
+      const token   = authData.session?.access_token;
+      if (!token) throw new Error("sem sessão");
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/client/auth/complete-profile`,
         {
           method:  "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type":  "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify({
-            userId,
             fullName,
             cpf,
             birthDate: toISO(dataNascimento),

@@ -15,9 +15,11 @@ export interface UserProfile {
 }
 
 export interface UpdateProfilePayload {
-  fullName:  string;
-  phone:     string;
-  instagram: string;
+  fullName?:  string;
+  phone?:     string;
+  instagram?: string;
+  cpf?:       string;
+  birthDate?: string; // ISO YYYY-MM-DD
 }
 
 export interface UpdatePixKeyPayload {

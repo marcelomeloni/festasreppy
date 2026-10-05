@@ -18,11 +18,13 @@ function AuthCallbackContent() {
     const checkUserAccount = async () => {
       try {
         const { data } = await supabase.auth.getSession();
-        const userId = data.session?.user?.id;
+        const session = data.session;
+        const userId = session?.user?.id;
         if (!userId) throw new Error("sem sessão");
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/client/auth/profile/${userId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/client/auth/profile/${userId}`,
+          { headers: { Authorization: `Bearer ${session.access_token}` } }
         );
         const profile = await res.json();
 
