@@ -40,16 +40,15 @@ export default function LoginPage() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-primary opacity-10 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="relative z-10 max-w-lg w-full h-full flex items-center justify-center">
-          <div className="relative w-full h-[80vh] max-h-[700px] rounded-3xl overflow-hidden shadow-2xl backdrop-blur-sm bg-white/5 border border-white/20">
+          <div className="relative w-full h-[80vh] max-h-[700px] overflow-hidden">
             <Image
               src="/loginimage.png"
               alt="Imagem de login"
               fill
-              className="object-cover object-center"
+              className="object-cover"
               priority
             />
           </div>
-        </div>
         </div>
       </div>
 
