@@ -35,6 +35,11 @@ export const myTicketsService = {
   getMyTickets: (): Promise<MyTicketsResponse> =>
     apiService.get<MyTicketsResponse>("/client/my-tickets"),
 
+  fetchTicketQRCode: (ticketId: string): Promise<string> =>
+    apiService
+      .get<{ qrCodeBase64: string }>(`/client/my-tickets/${ticketId}/qr`)
+      .then(res => res.qrCodeBase64),
+
   fetchTicketHTML: (ticketId: string): Promise<Response> =>
     apiService.getraw(`/client/my-tickets/${ticketId}/download`),
 };

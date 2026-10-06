@@ -10,6 +10,10 @@ interface QRModalProps {
   onClose: () => void
 }
 
+// Cache simples: ticketId → base64 PNG. Persiste enquanto a aba estiver aberta,
+// evitando refetch ao reabrir o modal do mesmo ingresso.
+const qrCache = new Map<string, string>()
+
 const isMobile = () =>
   typeof navigator !== 'undefined' &&
   /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
@@ -20,27 +24,57 @@ const A4_HEIGHT_PX = 1123
 
 export default function QRModal({ ingresso, onClose }: QRModalProps) {
   const qrRef = useRef<HTMLDivElement>(null)
+  const [qrCodeBase64, setQrCodeBase64] = useState<string | null>(
+    qrCache.get(ingresso.id) ?? null,
+  )
+  const [qrReady, setQrReady] = useState(!!qrCache.get(ingresso.id))
   const [downloading, setDownloading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Busca o QR oficial (mesmo gerado no PDF) — usa cache quando disponível.
   useEffect(() => {
-    if (!qrRef.current || !ingresso.qrCode) return
+    const cached = qrCache.get(ingresso.id)
+    if (cached) {
+      setQrCodeBase64(cached)
+      setQrReady(true)
+      return
+    }
+
+    let cancelled = false
+    myTicketsService.fetchTicketQRCode(ingresso.id)
+      .then(base64 => {
+        if (cancelled) return
+        qrCache.set(ingresso.id, base64)
+        setQrCodeBase64(base64)
+        setQrReady(true)
+      })
+      .catch(err => {
+        console.error('fetchTicketQRCode:', err)
+        if (!cancelled) setQrReady(true) // libera fallback
+      })
+
+    return () => { cancelled = true }
+  }, [ingresso.id])
+
+  // Fallback: se a API falhar, gera um QR local com o mesmo conteúdo.
+  useEffect(() => {
+    if (!qrReady || qrCodeBase64 || !qrRef.current || !ingresso.qrCode) return
 
     const qr = new QRCodeStyling({
       width: 192,
       height: 192,
       type: 'svg',
       data: ingresso.qrCode,
-      dotsOptions: { color: '#0A0A0A', type: 'rounded' },
-      cornersSquareOptions: { type: 'extra-rounded', color: '#0A0A0A' },
-      cornersDotOptions: { type: 'dot', color: '#1BFF11' },
+      dotsOptions: { color: '#0A0A0A', type: 'square' },
+      cornersSquareOptions: { type: 'square', color: '#0A0A0A' },
+      cornersDotOptions: { type: 'square', color: '#0A0A0A' },
       backgroundOptions: { color: '#FFFFFF' },
-      qrOptions: { errorCorrectionLevel: 'H' },
+      qrOptions: { errorCorrectionLevel: 'M' },
     })
 
     qrRef.current.innerHTML = ''
     qr.append(qrRef.current)
-  }, [ingresso.qrCode])
+  }, [qrReady, qrCodeBase64, ingresso.qrCode])
 
   async function handleDownload() {
     try {
@@ -110,7 +144,17 @@ export default function QRModal({ ingresso, onClose }: QRModalProps) {
         </div>
 
         <div className="w-52 h-52 bg-white rounded-[20px] border border-[#E0E0D8] flex items-center justify-center p-3 shadow-sm">
-          <div ref={qrRef} />
+          {qrCodeBase64 ? (
+            <img
+              src={`data:image/png;base64,${qrCodeBase64}`}
+              alt="QR Code do ingresso"
+              width={208}
+              height={208}
+              className="block"
+            />
+          ) : (
+            <div ref={qrRef} />
+          )}
         </div>
 
         <p className="font-body text-[11px] font-bold text-[#9A9A8F] tracking-[0.14em] uppercase">
