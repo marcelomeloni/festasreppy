@@ -23,6 +23,10 @@ export interface MyTicket {
   listingId:         string | null;
   listingPrice:      number | null;
   daysUntil:         number | null;
+  eventStatus:       string;
+  orderId:           string;
+  orderTotal:        number;
+  refundStatus:      string | null;
   evento:            MyTicketEvent;
 }
 

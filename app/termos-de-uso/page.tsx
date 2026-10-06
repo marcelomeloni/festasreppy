@@ -263,8 +263,7 @@ export default function TermosDeUso() {
                 <tbody>
                   {[
                     ["Até R$10", "10%", "Organizador Escolhe"],
-                    ["R$11 – R$14", "8%", "Organizador Escolhe"],
-                    ["R$15 ou mais", "7%", "Organizador Escolhe"],
+                    ["R$11 ou mais", "8%", "Organizador Escolhe"],
                   ].map(([faixa, taxa, quem]) => (
                     <tr key={faixa} className="border-t border-[#E0E0D8] hover:bg-[#F0F0EB] transition-colors">
                       <td className="px-4 py-3.5 font-display font-semibold text-[14px]">{faixa}</td>
@@ -277,10 +276,10 @@ export default function TermosDeUso() {
             </div>
           </Subsection>
           <Body>
-            Eventos estratégicos selecionados pela Reppy podem receber <strong>taxa promocional</strong>{" "}
-            temporária (entre 4% e 6%). A taxa exata é exibida no dashboard antes da publicação. Após o
-            período promocional, o evento migra automaticamente para a taxa permanente. A transição é
-            comunicada ao organizador com aviso prévio de pelo menos 15 dias dentro da plataforma.
+            Para qualquer ingresso, a taxa nunca fica abaixo de <strong>R$0,80</strong> — mesmo em
+            ingressos mais baratos, o piso garante que o custo da transação é sempre coberto. A Reppy
+            pode oferecer taxas diferenciadas a organizações específicas, sempre respeitando o piso
+            mínimo. A taxa exata é exibida no dashboard antes da publicação.
           </Body>
           <Subsection title="Formas de pagamento">
             <Body>
@@ -338,7 +337,7 @@ export default function TermosDeUso() {
           <Subsection title="Taxa do Reppy Market">
             <Body>
               O vendedor não paga taxa adicional. O comprador paga uma taxa sobre o valor da revenda
-              (R$0.80), já embutida no preço exibido. A taxa exata é sempre mostrada antes de
+              (R$1,60), já embutida no preço exibido. A taxa exata é sempre mostrada antes de
               confirmar a listagem.
             </Body>
           </Subsection>

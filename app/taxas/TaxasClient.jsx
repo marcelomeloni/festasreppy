@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 // ── fee logic ─────────────────────────────────────────────────────────────────
-const reppyRate = (p) => (p <= 10 ? 0.1 : p <= 14 ? 0.08 : 0.07);
-const calcReppy = (p) => p * reppyRate(p);
+const reppyRate = (p) => (p <= 10 ? 0.1 : 0.08);
+const calcReppy = (p) => Math.max(p * reppyRate(p), 0.8);
 const calcChe   = (p) => p * 0.1;
 const calcSym   = (p) => Math.max(p * 0.1, p <= 39.9 ? 3.99 : 0);
 const calcEve   = (p) => Math.max(p * 0.085, 2.5);
@@ -90,14 +90,14 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   name: "Taxas — Reppy",
-  description: "Reppy cobra 7% de taxa a partir de R$15. Sem mensalidade, sem mínimo abusivo.",
+  description: "Reppy cobra 8% de taxa a partir de R$11. Sem mensalidade, sem mínimo abusivo.",
   url: "https://reppy.com.br/taxas",
   provider: { "@type": "Organization", name: "Reppy", url: "https://reppy.com.br" },
   mainEntity: {
     "@type": "PriceSpecification",
     name: "Taxa de serviço Reppy",
-    description: "7% para ingressos a partir de R$15",
-    price: "7", priceCurrency: "BRL",
+    description: "8% para ingressos acima de R$10",
+    price: "8", priceCurrency: "BRL",
   },
 };
 
@@ -161,9 +161,9 @@ export default function TaxasClient() {
             <span className="text-[#333] text-[11px]">/</span>
             <span className="font-body text-[11px] tracking-[.1em] uppercase text-[#5C5C52]">taxas</span>
           </div>
-          {/* ghost 7% — smaller on mobile so it doesn't overwhelm */}
+          {/* ghost 8% — smaller on mobile so it doesn't overwhelm */}
           <div aria-hidden className="absolute top-1/2 right-2 sm:right-8 -translate-y-[55%] select-none pointer-events-none opacity-[0.04]">
-            <span className="font-bricolage font-extrabold text-[#F7F7F2]" style={{ fontSize:"clamp(120px,28vw,340px)", lineHeight:1 }}>7%</span>
+            <span className="font-bricolage font-extrabold text-[#F7F7F2]" style={{ fontSize:"clamp(120px,28vw,340px)", lineHeight:1 }}>8%</span>
           </div>
 
           <div className="max-w-5xl relative">
@@ -190,15 +190,14 @@ export default function TaxasClient() {
                 </h2>
               </div>
               <p className="font-body text-[14px] sm:text-[15px] text-[#9A9A8F] leading-[1.8] sm:max-w-[260px] sm:pt-2">
-                Quanto mais caro o ingresso, menor a porcentagem. Sem mínimo abusivo.
+                8% fixo acima de R$10. Taxa mínima de R$0,80 por ingresso.
               </p>
             </div>
 
             <div className="border-[1.5px] border-[#E0E0D8] rounded-[20px] sm:rounded-[28px] overflow-hidden">
               {[
                 { range:"Até R$10",    pct:"10%", sub:null,                    dark:false },
-                { range:"R$11 – R$14", pct:"8%",  sub:null,                    dark:false },
-                { range:"R$15+",       pct:"7%",  sub:"TAXA FIXA PRA SEMPRE", dark:true  },
+                { range:"R$11 ou mais", pct:"8%",  sub:"TAXA FIXA PRA SEMPRE", dark:true  },
               ].map((row, i) => (
                 <div key={row.range}
                   className={[
@@ -216,6 +215,9 @@ export default function TaxasClient() {
                 </div>
               ))}
             </div>
+            <p className="font-body text-[12px] sm:text-[13px] text-[#9A9A8F] leading-[1.7] mt-4">
+              Para qualquer ingresso, a taxa nunca fica abaixo de R$0,80 — mesmo nos mais baratos, o piso garante que o custo da transação é sempre coberto.
+            </p>
           </div>
         </section>
 

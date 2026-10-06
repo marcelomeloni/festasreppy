@@ -76,6 +76,12 @@ export default function TicketCard({ ingresso, onTransferred }: TicketCardProps)
           )}
 
           <div className="flex-1 min-w-0 p-4">
+            {ingresso.eventStatus === 'cancelled' && (
+              <span className="inline-flex font-body text-[10px] font-bold text-[#FF2D2D] bg-[#ffe5e5] px-2 py-0.5 rounded-full mb-2">
+                ⚠️ Evento cancelado
+              </span>
+            )}
+
             {isDone && (
               <span className="inline-flex font-body text-[10px] font-bold text-[#9A9A8F] bg-[#F0F0EB] px-2 py-0.5 rounded-full mb-2">
                 {isUsed ? 'Usado' : 'Encerrado'}

@@ -35,10 +35,10 @@ export default function ActionsSheet({ ingresso, onClose, onOpenTransfer, onOpen
     {
       icon: <Receipt size={18} weight="bold" />,
       label: 'Solicitar Reembolso',
-      sub: 'Cancelar ingresso e estornar valor',
+      sub: 'O valor total do pedido volta pro seu Pix',
       onClick: () => { onClose(); onOpenRefund() },
       danger: true,
-      show: ingresso.ticketPrice > 0,  // oculta para ingressos gratuitos
+      show: (ingresso.eventStatus === 'cancelled') || ingresso.ticketPrice > 0,
     },
   ].filter(a => a.show)
 
