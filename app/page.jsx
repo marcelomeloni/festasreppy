@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   MapPin,
@@ -72,40 +73,57 @@ export default function HomePage() {
 
        
 
-        <div className="max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col justify-center gap-10 py-20">
+        <div className="relative max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col justify-center gap-10 py-20">
 
      
 
           {/* headline — Bricolage Grotesque aqui */}
-          <div>
+          <div className="relative z-10">
             <h1
-              className="font-bricolage font-extrabold text-white leading-[0.92]"
+              className="font-bricolage font-extrabold text-white leading-[0.92] whitespace-nowrap"
               style={{ fontSize: "clamp(72px, 13vw, 168px)", letterSpacing: "-4px" }}
             >
-              de rep
+              da reppy
             </h1>
             <h1
-              className="font-bricolage font-extrabold text-primary leading-[0.92]"
-              style={{ fontSize: "clamp(72px, 13vw, 168px)", letterSpacing: "-4px" }}
+              className="font-bricolage font-extrabold text-primary leading-[0.92] whitespace-nowrap"
+              style={{ fontSize: "clamp(200px, 13vw, 168px)", letterSpacing: "-4px" }}
             >
-              pra rep.
+              PRA VC.
             </h1>
           </div>
 
           {/* sub + CTA */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-end gap-8">
-            <p className="font-body text-base text-gray-500 leading-relaxed max-w-xs">
-              Festas, baladas, calouradas —
-              tudo num lugar só. Pega seu ingresso
-              e vai aproveitar.
-            </p>
+          <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-end gap-8">
+         
             <Link
               href="/eventos"
-              className="flex items-center gap-2 font-display font-extrabold text-black bg-primary hover:bg-primary-dark px-7 py-4 rounded-pill transition-all hover:scale-[1.02] active:scale-[0.98] shrink-0 tracking-tight text-[15px]"
+              className="group relative inline-flex h-[54px] items-center justify-center overflow-hidden rounded-pill border-2 border-primary font-display font-extrabold tracking-tight text-[15px] shrink-0"
             >
-              explorar eventos
-              <ArrowRight size={15} weight="bold" />
+              <div className="inline-flex h-full items-center justify-center gap-2 px-7 bg-primary text-black transition duration-500 group-hover:-translate-y-[150%]">
+                explorar eventos
+                <ArrowRight size={15} weight="bold" />
+              </div>
+              <div className="absolute inline-flex h-full w-full translate-y-full items-center justify-center text-primary transition duration-500 group-hover:translate-y-0">
+                <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-black transition duration-500 group-hover:translate-y-0 group-hover:scale-150" />
+                <span className="z-10 inline-flex items-center gap-2">
+                  explorar eventos
+                  <ArrowRight size={15} weight="bold" />
+                </span>
+              </div>
             </Link>
+          </div>
+
+          {/* imagem — lado direito do hero (desktop) */}
+          <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:-right-12 lg:z-0 lg:pointer-events-none">
+            <Image
+              src="/mao-liquido-verde.png"
+              alt="Mão derramando líquido verde neon"
+              width={1122}
+              height={1402}
+              priority
+              className="h-full w-auto object-contain object-right drop-shadow-[0_0_60px_rgba(27,255,17,0.25)]"
+            />
           </div>
         </div>
 
