@@ -137,13 +137,7 @@ export function EventSidebar({
   const totalFee = cartLines.reduce((s, l) => s + l.lineFee, 0);
   const grandTotal = cartLines.reduce((s, l) => s + l.lineTotal, 0);
   const allFree = grandTotal === 0 && totalQty > 0;
-
-  const feeLabel = [
-    fee.percentage > 0 ? fee.percentage : null,
-    fee.fixed > 0 ? formatBRL(fee.fixed) : null,
-  ]
-    .filter(Boolean)
-    .join(" + ");
+  const effectiveFeePercent = subtotal > 0 ? totalFee / subtotal : 0;
 
   return (
     <>
@@ -329,7 +323,7 @@ export function EventSidebar({
                     </div>
                     {totalFee > 0 && (
                       <div className="flex justify-between font-body text-sm">
-                        <span className="text-gray-500">Taxa de serviço ({feeLabel})</span>
+                        <span className="text-gray-500">Taxa de serviço ({formatPercent(effectiveFeePercent)})</span>
                         <span className="text-black font-semibold">{formatBRL(totalFee)}</span>
                       </div>
                     )}
