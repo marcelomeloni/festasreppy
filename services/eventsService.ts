@@ -65,7 +65,11 @@ export interface OfficialLot {
   feePayer: "buyer" | "organizer";
   feePercentage: number;
   available: boolean;
-  unavailableReason?: "sold_out" | "expired" | "not_started" | "";
+  unavailableReason?: "sold_out" | "expired" | "not_started" | "waiting_previous" | "";
+  quantityTotal: number;
+  quantitySold: number;
+  minPurchase: number;
+  maxPurchase: number;
 }
 
 export interface OfficialCategory {
@@ -101,6 +105,10 @@ function normalizeOfficialLot(lot: OfficialLot): OfficialLot {
     ...lot,
     price: toNumber(lot.price),
     feePercentage: toNumber(lot.feePercentage),
+    quantityTotal: toNumber(lot.quantityTotal),
+    quantitySold: toNumber(lot.quantitySold),
+    minPurchase: toNumber(lot.minPurchase),
+    maxPurchase: toNumber(lot.maxPurchase),
   };
 }
 
