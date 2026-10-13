@@ -39,7 +39,6 @@ const UNAVAILABLE_LABEL: Record<string, string> = {
   sold_out: "Esgotado",
   expired: "Encerrado",
   not_started: "Em breve",
-  waiting_previous: "Aguarda lote anterior",
 };
 
 function maxSelectable(lot: OfficialLot): number {
@@ -198,14 +197,19 @@ export function EventSidebar({
                 Nenhum ingresso oficial à venda no momento.
               </p>
             ) : (
-              categories.map((category) => (
+              categories.map((category) => {
+                const visibleLots = category.lots.filter(
+                  (l) => l.unavailableReason !== "waiting_previous"
+                );
+                if (visibleLots.length === 0) return null;
+                return (
                 <div key={category.id} className="flex flex-col gap-2">
                   <p className="font-bricolage font-extrabold text-[11px] uppercase tracking-widest text-gray-400 px-1">
                     {category.name}
                   </p>
 
                   <div className="flex flex-col gap-3">
-                    {category.lots.map((lot) => {
+                    {visibleLots.map((lot) => {
                       const qty = qtys[lot.id] || 0;
                       const active = qty > 0;
                       const isAvailable = lot.available ?? true;
@@ -227,10 +231,6 @@ export function EventSidebar({
                       const lotIsFree = safeNum(lot.price) === 0;
                       const cap = maxSelectable(lot);
                       const atMax = qty >= cap;
-                      const remaining =
-                        safeNum(lot.quantityTotal) > 0
-                          ? Math.max(0, safeNum(lot.quantityTotal) - safeNum(lot.quantitySold))
-                          : null;
 
                       return (
                         <div
@@ -295,10 +295,7 @@ export function EventSidebar({
                           {isAvailable && !blocked && (
                             <>
                               <hr className="border-t border-gray-100" />
-                              <div className="flex items-center justify-between">
-                                <span className="font-body text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                                  Qtd.{remaining !== null ? ` · restam ${remaining}` : ""}
-                                </span>
+                              <div className="flex items-center justify-end">
                                 <div className="flex items-center gap-3 bg-gray-100 rounded-full px-1 py-1">
                                   <button
                                     onClick={() => dec(lot.id)}
@@ -334,7 +331,8 @@ export function EventSidebar({
                     })}
                   </div>
                 </div>
-              ))
+                );
+              })
             )}
           </div>
 

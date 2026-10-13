@@ -44,7 +44,7 @@ export function EventDetails({ event }: EventDetailsProps) {
   const { organizer } = event;
   const orgInitials = organizer?.name?.substring(0, 3).toUpperCase() ?? "ORG";
 
-  const fullAddressSearch = `${event.address.street}, ${event.address.city} - ${event.address.state}`;
+  const fullAddressSearch = `${event.address.street}${event.address.number ? `, ${event.address.number}` : ""}, ${event.address.city} - ${event.address.state}`;
 
   return (
     <div className="flex-1 lg:max-w-[65%] flex flex-col gap-10">
@@ -127,7 +127,7 @@ export function EventDetails({ event }: EventDetailsProps) {
             {event.locationName}
           </h3>
           <p className="font-body text-[14px] text-[#5C5C52] leading-relaxed mt-1">
-            {event.address.street}<br />
+            {event.address.street}{event.address.number ? `, ${event.address.number}` : ""}<br />
             {event.address.neighborhood} — {event.address.city}, {event.address.state}<br />
             CEP: {event.address.zipCode}
           </p>
