@@ -19,6 +19,7 @@ export interface SectionResponse {
 
 export interface EventAddress {
   street: string;
+  number: string;
   city: string;
   state: string;
   zipCode: string;
