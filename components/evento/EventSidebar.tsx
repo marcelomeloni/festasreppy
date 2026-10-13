@@ -39,7 +39,17 @@ const UNAVAILABLE_LABEL: Record<string, string> = {
   sold_out: "Esgotado",
   expired: "Encerrado",
   not_started: "Em breve",
+  waiting_previous: "Aguarda lote anterior",
 };
+
+function maxSelectable(lot: OfficialLot): number {
+  const total = safeNum(lot.quantityTotal);
+  const sold  = safeNum(lot.quantitySold);
+  const available = total > 0 ? Math.max(0, total - sold) : Infinity;
+  const maxPurchase = safeNum(lot.maxPurchase) > 0 ? safeNum(lot.maxPurchase) : Infinity;
+  const cap = Math.min(available, maxPurchase);
+  return isFinite(cap) ? cap : 99;
+}
 
 interface EventSidebarProps {
   event: EventData;
@@ -83,7 +93,12 @@ export function EventSidebar({
   const inc = (id: string) => {
     const lot = allLots.find((l) => l.id === id);
     if (!lot?.available || isLotBlocked(lot)) return;
-    setQtys((q) => ({ ...q, [id]: (q[id] || 0) + 1 }));
+    const cap = maxSelectable(lot);
+    setQtys((q) => {
+      const current = q[id] || 0;
+      if (current >= cap) return q;
+      return { ...q, [id]: current + 1 };
+    });
   };
 
   const dec = (id: string) =>
@@ -210,6 +225,12 @@ export function EventSidebar({
                           ? formatPercent(safeNum(lot.feePercentage))
                           : null;
                       const lotIsFree = safeNum(lot.price) === 0;
+                      const cap = maxSelectable(lot);
+                      const atMax = qty >= cap;
+                      const remaining =
+                        safeNum(lot.quantityTotal) > 0
+                          ? Math.max(0, safeNum(lot.quantityTotal) - safeNum(lot.quantitySold))
+                          : null;
 
                       return (
                         <div
@@ -276,7 +297,7 @@ export function EventSidebar({
                               <hr className="border-t border-gray-100" />
                               <div className="flex items-center justify-between">
                                 <span className="font-body text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                                  Qtd.
+                                  Qtd.{remaining !== null ? ` · restam ${remaining}` : ""}
                                 </span>
                                 <div className="flex items-center gap-3 bg-gray-100 rounded-full px-1 py-1">
                                   <button
@@ -295,7 +316,12 @@ export function EventSidebar({
                                   </span>
                                   <button
                                     onClick={() => inc(lot.id)}
-                                    className="w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold text-gray-500 hover:bg-gray-200 transition-all"
+                                    disabled={atMax}
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold transition-all ${
+                                      atMax
+                                        ? "text-gray-300 cursor-not-allowed"
+                                        : "text-gray-500 hover:bg-gray-200"
+                                    }`}
                                   >
                                     +
                                   </button>
