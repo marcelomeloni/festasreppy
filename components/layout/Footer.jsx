@@ -2,15 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { InstagramLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
+const ORGANIZADORES_URL = "https://organizadores.reppy.app.br";
+
 // Footer enxuto: Apenas o que importa para o usuário agora
 const FOOTER_LINKS = {
   Explorar: [
-    { href: "/eventos",    label: "Eventos" },
-    { href: "/login",      label: "Entrar na conta" },
+    { href: "/eventos", label: "Eventos" },
+    { href: "/login",   label: "Entrar na conta" },
   ],
   "Para Organizadores": [
-    { href: "/criar-evento", label: "Venda seus ingressos" },
-    { href: "/taxas",        label: "Taxas" },
+    { href: ORGANIZADORES_URL, label: "Venda seus ingressos", external: true },
+    { href: "/taxas",          label: "Taxas" },
   ],
   Legal: [
     { href: "/termos-de-uso", label: "Termos de uso" },
@@ -23,6 +25,9 @@ const SOCIALS = [
   { href: "https://twitter.com/reppybr",     Icon: XLogo,         label: "X" },
 ];
 
+const LINK_CLASS =
+  "font-body text-[14px] font-medium text-gray-500 hover:text-primary-dark transition-colors";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-100 border-t-2 border-gray-200 mt-20">
@@ -34,19 +39,19 @@ export default function Footer() {
           {/* Brand & Info */}
           <div className="flex flex-col gap-6 max-w-sm">
             <Link href="/" className="inline-block transition-opacity hover:opacity-80">
-              <Image 
-                src="/preto.png" 
-                alt="Reppy" 
-                width={120} 
-                height={38} 
+              <Image
+                src="/preto.png"
+                alt="Reppy"
+                width={120}
+                height={38}
                 className="h-8 md:h-10 w-auto object-contain"
               />
             </Link>
-            
+
             <p className="font-body text-[15px] font-medium text-gray-600 leading-relaxed">
               O hub da vida social universitária brasileira. Descubra as melhores festas, repúblicas e bares perto de você.
             </p>
-            
+
             <div className="flex gap-3 mt-2">
               {SOCIALS.map(({ href, Icon, label }) => (
                 <a
@@ -73,12 +78,20 @@ export default function Footer() {
                 <ul className="flex flex-col gap-3.5">
                   {links.map((link) => (
                     <li key={link.href}>
-                      <Link 
-                        href={link.href}
-                        className="font-body text-[14px] font-medium text-gray-500 hover:text-primary-dark transition-colors"
-                      >
-                        {link.label}
-                      </Link>
+                      {link.external ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={LINK_CLASS}
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link href={link.href} className={LINK_CLASS}>
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
