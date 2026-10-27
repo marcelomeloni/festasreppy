@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { InstagramLogo, XLogo, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
+import { InstagramLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
-const ORGANIZADORES_URL = "https://organizador.reppy.app.br";
+const ORGANIZADORES_URL = "https://organizadores.reppy.app.br";
 
+// Footer enxuto: Apenas o que importa para o usuário agora
 const FOOTER_LINKS = {
   Explorar: [
     { href: "/eventos", label: "Eventos" },
@@ -17,16 +18,11 @@ const FOOTER_LINKS = {
     { href: "/termos-de-uso", label: "Termos de uso" },
     { href: "/privacidade",   label: "Privacidade" },
   ],
-  Contato: [
-    { href: "https://wa.me/5519971603471", label: "WhatsApp: (19) 97160-3471", external: true },
-    { href: "mailto:reppybr@gmail.com",    label: "reppybr@gmail.com",        external: true },
-  ],
 };
 
 const SOCIALS = [
   { href: "https://instagram.com/reppy.app", Icon: InstagramLogo, label: "Instagram" },
   { href: "https://twitter.com/reppybr",     Icon: XLogo,         label: "X" },
-  { href: "https://wa.me/5519971603471",     Icon: WhatsappLogo,  label: "WhatsApp" },
 ];
 
 const LINK_CLASS =
@@ -73,7 +69,7 @@ export default function Footer() {
           </div>
 
           {/* Links Enxutos */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 md:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10 md:gap-12">
             {Object.entries(FOOTER_LINKS).map(([group, links]) => (
               <div key={group}>
                 <h4 className="font-bricolage text-[14px] font-extrabold uppercase tracking-wide text-black mb-5">
@@ -106,19 +102,9 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="border-t-2 border-gray-200 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
-            <p className="font-body text-[13px] font-semibold text-gray-500">
-              © {new Date().getFullYear()} Reppy.
-            </p>
-            <span className="hidden sm:inline text-gray-300">•</span>
-            <p className="font-body text-[13px] font-medium text-gray-500">
-              CNPJ: 69.775.590/0001-20
-            </p>
-            <span className="hidden sm:inline text-gray-300">•</span>
-            <p className="font-body text-[13px] font-medium text-gray-500">
-              Limeira – SP
-            </p>
-          </div>
+          <p className="font-body text-[13px] font-semibold text-gray-400">
+            © {new Date().getFullYear()} Reppy.
+          </p>
           <p className="font-bricolage text-[16px] font-extrabold text-black tracking-tight uppercase">
             A sua noite começa aqui.
           </p>

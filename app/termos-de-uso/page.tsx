@@ -573,7 +573,7 @@ export default function TermosDeUso() {
         <Section id="foro" num="16" title="Foro e legislação aplicável">
           <Body>
             Estes termos são regidos pelas leis da República Federativa do Brasil. Em caso de conflito,
-            fica eleito o foro da comarca de <strong>Limeira – SP</strong>, com renúncia
+            fica eleito o foro da comarca de <strong>[cidade-sede da Reppy]</strong>, com renúncia
             expressa a qualquer outro, por mais privilegiado que seja.
           </Body>
           <Body>
@@ -597,18 +597,10 @@ export default function TermosDeUso() {
               Fala com a gente. A resposta vem rápido.
             </p>
             <a
-              href="mailto:reppybr@gmail.com"
+              href="mailto:oi@reppy.app"
               className="relative inline-flex items-center gap-2 bg-[#1BFF11] hover:bg-[#0FD40A] text-[#0A0A0A] font-display font-bold text-[15px] px-7 py-3.5 rounded-full transition-all hover:-translate-y-0.5"
             >
-              ✉ reppybr@gmail.com
-            </a>
-            <a
-              href="https://wa.me/5519971603471"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-display font-bold text-[15px] px-7 py-3.5 rounded-full transition-all hover:-translate-y-0.5 ml-0 sm:ml-3 mt-3 sm:mt-0"
-            >
-              💬 WhatsApp (19) 97160-3471
+              ✉ oi@reppy.app
             </a>
           </div>
         </section>

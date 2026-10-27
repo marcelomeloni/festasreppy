@@ -484,8 +484,8 @@ export default function PoliticaDePrivacidade() {
             <p className="font-display font-bold text-[15px] text-[#0A0A0A] mb-1">Encarregado de Proteção de Dados</p>
             <p className="text-[15px] text-[#5C5C52]">
               E-mail:{" "}
-              <a href="mailto:reppybr@gmail.com" className="text-[#0FD40A] font-semibold hover:underline">
-                reppybr@gmail.com
+              <a href="mailto:privacidade@reppy.app" className="text-[#0FD40A] font-semibold hover:underline">
+                privacidade@reppy.app
               </a>
             </p>
             <p className="text-[14px] text-[#9A9A8F] mt-1">Prazo de resposta: até 15 dias úteis</p>
@@ -514,11 +514,11 @@ export default function PoliticaDePrivacidade() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
               <a
-                href="mailto:reppybr@gmail.com"
+                href="mailto:privacidade@reppy.app"
                 className="inline-flex items-center gap-2 bg-[#1BFF11] hover:bg-[#0FD40A] text-[#0A0A0A] font-display font-bold text-[15px] px-7 py-3.5 rounded-full transition-all hover:-translate-y-0.5"
               >
                 <Lock size={16} weight="bold" />
-                reppybr@gmail.com
+                privacidade@reppy.app
               </a>
               <a
                 href="/termos-de-uso"

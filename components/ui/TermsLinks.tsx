@@ -6,7 +6,7 @@ export function TermsLinks() {
   return (
     <p className="mt-8 font-body text-[13px] text-gray-400 text-center">
       Ao continuar, você concorda com nossos{" "}
-      <Link href="/termos-de-uso" className="underline hover:text-black transition-colors">
+      <Link href="/termos" className="underline hover:text-black transition-colors">
         Termos
       </Link>{" "}
       e{" "}
