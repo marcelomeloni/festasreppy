@@ -285,6 +285,11 @@ function MarketCheckoutContent() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-8">
+      <div className="mb-4 p-3 rounded-[12px] bg-gray-100 border border-gray-200 text-center animate-fadeUp">
+        <p className="font-body text-[11px] text-gray-600 leading-relaxed">
+          Os serviços financeiros acessados por esta integração são prestados diretamente pelo <span className="font-semibold">C6 Bank</span>. A Reppy atua exclusivamente como provedor da tecnologia de integração.
+        </p>
+      </div>
       {step !== "paid" && (
         <div className="mb-6 animate-fadeUp">
           <p className="text-xs font-display font-bold tracking-widest uppercase mb-1 text-gray-400">
@@ -418,6 +423,9 @@ function MarketCheckoutContent() {
 
         {step === "pix" && pixData && (
           <div className="animate-fadeUp">
+            <div className="mb-2 text-center">
+              <p className="font-body text-[11px] text-gray-500">Pagamento processado via <span className="font-semibold">C6 Bank</span></p>
+            </div>
             <PixPayment pixData={pixData} onExpire={handleExpired} isVisible />
           </div>
         )}
