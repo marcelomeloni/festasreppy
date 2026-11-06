@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { InstagramLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
-const ORGANIZADORES_URL = "https://organizadores.reppy.app.br";
+const ORGANIZADORES_URL = "https://organizador.reppy.app.br";
 
 // Footer enxuto: Apenas o que importa para o usuário agora
 const FOOTER_LINKS = {
