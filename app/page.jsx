@@ -14,10 +14,19 @@ import {
 const TICKER_ITEMS = [
   "festas", "repúblicas", "calouradas", "baladas",
   "barzinhos", "shows", "open bar",
-"ingressos", "eventos", "galera",
+  "ingressos", "eventos", "galera",
 ];
 
-const AUDIENCES = [
+const AUDIENCES: {
+  Icon: React.ElementType;
+  tag: string;
+  title: string;
+  desc: string;
+  cta: string;
+  href: string;
+  dark: boolean;
+  external?: boolean;
+}[] = [
   {
     Icon: GraduationCap,
     tag: "pra você",
@@ -42,7 +51,8 @@ const AUDIENCES = [
     title: "Organizador",
     desc: "Dashboard completo, venda de ingressos, relatórios em tempo real. Tudo que você precisa pra fazer a noite acontecer.",
     cta: "começar agora",
-    href: "/cadastro",
+    href: "https://organizador.reppy.app.br",
+    external: true,
     dark: false,
   },
 ];
@@ -71,11 +81,7 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "180px" }} />
 
-       
-
         <div className="relative max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col justify-center gap-10 py-20">
-
-     
 
           {/* headline — Bricolage Grotesque aqui */}
           <div className="relative z-10">
@@ -95,7 +101,7 @@ export default function HomePage() {
 
           {/* sub + CTA */}
           <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-end gap-8">
-         
+
             <Link
               href="/eventos"
               className="group relative inline-flex h-[54px] items-center justify-center overflow-hidden rounded-pill border-2 border-primary font-display font-extrabold tracking-tight text-[15px] shrink-0"
@@ -155,47 +161,56 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {AUDIENCES.map(({ Icon, tag, title, desc, cta, href, dark }) => (
-            <div
-              key={title}
-              className={`flex flex-col justify-between gap-10 p-8 rounded-card-lg border transition-all duration-200 hover:-translate-y-1 ${
-                dark
-                  ? "bg-black border-black text-white"
-                  : "bg-off-white border-gray-200 text-black hover:border-gray-400"
-              }`}
-            >
-              <div className="flex flex-col gap-6">
-                <div className="flex items-start justify-between">
-                  <span className={`flex items-center justify-center w-10 h-10 rounded-card-sm bg-primary`}>
-                    <Icon size={20} weight="bold" className="text-black" />
-                  </span>
-                  <span className={`font-body text-[11px] font-semibold uppercase tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
-                    {tag}
-                  </span>
-                </div>
-                <div>
-                  <h3
-                    className="font-display font-extrabold leading-none tracking-tight mb-3"
-                    style={{ fontSize: "clamp(28px, 2.5vw, 36px)", letterSpacing: "-1px" }}
-                  >
-                    {title}
-                  </h3>
-                  <p className={`font-body text-sm leading-relaxed ${dark ? "text-gray-400" : "text-gray-600"}`}>
-                    {desc}
-                  </p>
-                </div>
-              </div>
-              <Link
-                href={href}
-                className={`flex items-center gap-1.5 font-display text-sm font-bold tracking-tight w-fit transition-colors ${
-                  dark ? "text-primary" : "text-black hover:text-primary"
+          {AUDIENCES.map(({ Icon, tag, title, desc, cta, href, dark, external }) => {
+            const ctaClass = `flex items-center gap-1.5 font-display text-sm font-bold tracking-tight w-fit transition-colors ${
+              dark ? "text-primary" : "text-black hover:text-primary"
+            }`;
+
+            return (
+              <div
+                key={title}
+                className={`flex flex-col justify-between gap-10 p-8 rounded-card-lg border transition-all duration-200 hover:-translate-y-1 ${
+                  dark
+                    ? "bg-black border-black text-white"
+                    : "bg-off-white border-gray-200 text-black hover:border-gray-400"
                 }`}
               >
-                {cta}
-                <ArrowRight size={14} weight="bold" />
-              </Link>
-            </div>
-          ))}
+                <div className="flex flex-col gap-6">
+                  <div className="flex items-start justify-between">
+                    <span className="flex items-center justify-center w-10 h-10 rounded-card-sm bg-primary">
+                      <Icon size={20} weight="bold" className="text-black" />
+                    </span>
+                    <span className={`font-body text-[11px] font-semibold uppercase tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                      {tag}
+                    </span>
+                  </div>
+                  <div>
+                    <h3
+                      className="font-display font-extrabold leading-none tracking-tight mb-3"
+                      style={{ fontSize: "clamp(28px, 2.5vw, 36px)", letterSpacing: "-1px" }}
+                    >
+                      {title}
+                    </h3>
+                    <p className={`font-body text-sm leading-relaxed ${dark ? "text-gray-400" : "text-gray-600"}`}>
+                      {desc}
+                    </p>
+                  </div>
+                </div>
+
+                {external ? (
+                  <a href={href} target="_blank" rel="noopener noreferrer" className={ctaClass}>
+                    {cta}
+                    <ArrowRight size={14} weight="bold" />
+                  </a>
+                ) : (
+                  <Link href={href} className={ctaClass}>
+                    {cta}
+                    <ArrowRight size={14} weight="bold" />
+                  </Link>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -288,7 +303,7 @@ export default function HomePage() {
             tá esperando<br />
             <span className="text-primary">o quê?</span>
           </h2>
-     
+
           <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
             <Link
               href="/login"
@@ -309,4 +324,4 @@ export default function HomePage() {
 
     </div>
   );
-} 
+}
