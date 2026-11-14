@@ -17,16 +17,7 @@ const TICKER_ITEMS = [
   "ingressos", "eventos", "galera",
 ];
 
-const AUDIENCES: {
-  Icon: React.ElementType;
-  tag: string;
-  title: string;
-  desc: string;
-  cta: string;
-  href: string;
-  dark: boolean;
-  external?: boolean;
-}[] = [
+const AUDIENCES = [
   {
     Icon: GraduationCap,
     tag: "pra você",
