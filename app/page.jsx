@@ -33,7 +33,7 @@ const AUDIENCES = [
     title: "Morador de Rep",
     desc: "Sua república tem festa? A Reppy coloca no mapa. Venda ingressos, divulga o evento e enche a casa.",
     cta: "criar evento",
-    href: "/criar-evento",
+      href: "https://organizador.reppy.app.br",
     dark: true,
   },
   {
