@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tag, X } from "@phosphor-icons/react";
 import { MarketLot } from "@/services/eventsService";
-import { encodeMarketCart, MARKET_PLATFORM_FEE } from "@/services/marketCheckoutService";
+import { encodeMarketCart } from "@/services/marketCheckoutService";
 
 const formatBRL = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -31,7 +31,7 @@ export function MarketModal({
 
   const lot     = lots.find((l) => l.id === selected);
   const hasItem = !!lot;
-  const total   = lot ? lot.price + MARKET_PLATFORM_FEE : 0;
+  const total   = lot ? lot.price : 0;
 
   function handleCheckout() {
     if (!lot) return;
@@ -44,8 +44,8 @@ export function MarketModal({
       lotTitle:     lot.title,
       categoryName: lot.categoryName,
       sellerPrice:  lot.price,
-      platformFee:  MARKET_PLATFORM_FEE,
-      total:        lot.price + MARKET_PLATFORM_FEE,
+      platformFee:  0,
+      total:        lot.price,
     });
     router.push(`/checkout/market?cart=${encoded}`);
   }
@@ -103,7 +103,7 @@ export function MarketModal({
 
                   <div className="flex items-center gap-3 shrink-0">
                     <span className="font-bricolage font-extrabold text-black text-xl leading-none">
-                      {formatBRL(l.price + MARKET_PLATFORM_FEE)}
+                      {formatBRL(l.price)}
                     </span>
                     <span
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${

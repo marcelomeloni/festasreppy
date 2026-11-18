@@ -10,11 +10,22 @@ import {
   ChartLineUp,
   GraduationCap,
 } from "@phosphor-icons/react/dist/ssr";
+import {
+  HOME_DESCRIPTION,
+  ORGANIZADORES_URL,
+  pageMetadata,
+} from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Eventos, festas e ingressos universitários",
+  description: HOME_DESCRIPTION,
+  path: "/",
+});
 
 const TICKER_ITEMS = [
   "festas", "repúblicas", "calouradas", "baladas",
   "barzinhos", "shows", "open bar",
-  "ingressos", "eventos", "galera",
+"ingressos", "eventos", "galera",
 ];
 
 const AUDIENCES = [
@@ -33,7 +44,8 @@ const AUDIENCES = [
     title: "Morador de Rep",
     desc: "Sua república tem festa? A Reppy coloca no mapa. Venda ingressos, divulga o evento e enche a casa.",
     cta: "criar evento",
-      href: "https://organizador.reppy.app.br",
+    href: ORGANIZADORES_URL,
+    external: true,
     dark: true,
   },
   {
@@ -42,8 +54,7 @@ const AUDIENCES = [
     title: "Organizador",
     desc: "Dashboard completo, venda de ingressos, relatórios em tempo real. Tudo que você precisa pra fazer a noite acontecer.",
     cta: "começar agora",
-    href: "https://organizador.reppy.app.br",
-    external: true,
+    href: "/login",
     dark: false,
   },
 ];
@@ -54,96 +65,79 @@ const STEPS = [
   { n: "03", title: "Pega o ingresso",      desc: "Pagamento rápido. QR Code no celular. Chega e aproveita." },
 ];
 
-const STATS = [
-  { value: "50k+",  label: "universitários" },
-  { value: "1.2k+", label: "eventos por mês" },
-  { value: "800+",  label: "repúblicas" },
-  { value: "12",    label: "cidades" },
-];
-
 export default function HomePage() {
   return (
     <div className="bg-off-white overflow-x-hidden">
-{/* ── HERO ── */}
-<section className="relative bg-black min-h-[92svh] flex flex-col overflow-hidden">
 
-  {/* grain overlay */}
-  <div
-    className="absolute inset-0 opacity-[0.035] pointer-events-none z-20"
-    style={{
-      backgroundImage:
-        "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-      backgroundSize: "180px",
-    }}
-  />
+      {/* ── HERO ── */}
+      <section className="relative bg-black min-h-[92vh] flex flex-col justify-between overflow-hidden">
 
-  {/* imagem — MOBILE: fundo, ancorada embaixo à direita */}
-  <div className="lg:hidden absolute inset-x-0 bottom-0 h-[62%] z-0 pointer-events-none">
-    <Image
-      src="/mao-liquido-verde.png"
-      alt=""
-      aria-hidden="true"
-      width={1122}
-      height={1402}
-      priority
-      sizes="100vw"
-      className="absolute bottom-0 right-[-18%] h-full w-auto max-w-none object-contain object-bottom opacity-80 drop-shadow-[0_0_40px_rgba(27,255,17,0.25)]"
-    />
-    {/* fade para o texto ficar legível */}
-    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-black/10 to-black" />
-  </div>
+        {/* grain overlay */}
+        <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
+          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "180px" }} />
 
-  {/* imagem — DESKTOP */}
-  <div className="hidden lg:block absolute inset-y-0 -right-12 z-0 pointer-events-none">
-    <Image
-      src="/mao-liquido-verde.png"
-      alt="Mão derramando líquido verde neon"
-      width={1122}
-      height={1402}
-      priority
-      className="h-full w-auto object-contain object-right drop-shadow-[0_0_60px_rgba(27,255,17,0.25)]"
-    />
-  </div>
+       
 
-  <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full flex-1 flex flex-col justify-between lg:justify-center gap-10 pt-16 pb-8 sm:py-20">
+        <div className="relative max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col justify-center gap-10 py-20">
 
-    {/* headline */}
-    <div>
-      <h1
-        className="font-bricolage font-extrabold text-white leading-[0.9] tracking-[-0.05em]"
-        style={{ fontSize: "clamp(56px, 20vw, 168px)" }}
-      >
-        da reppy
-      </h1>
-      <h1
-        className="font-bricolage font-extrabold text-primary leading-[0.9] tracking-[-0.05em] uppercase"
-        style={{ fontSize: "clamp(56px, 20vw, 168px)" }}
-      >
-        pra vc.
-      </h1>
-    </div>
+     
 
-    {/* CTA */}
-    <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-8">
-      <Link
-        href="/eventos"
-        className="group relative inline-flex h-[56px] w-full sm:w-auto items-center justify-center overflow-hidden rounded-pill border-2 border-primary font-display font-extrabold tracking-tight text-[16px] shrink-0 active:scale-[0.98] transition-transform"
-      >
-        <div className="inline-flex h-full w-full items-center justify-center gap-2 px-7 bg-primary text-black transition duration-500 group-hover:-translate-y-[150%]">
-          explorar eventos
-          <ArrowRight size={16} weight="bold" />
+          {/* headline — Bricolage Grotesque aqui */}
+          <div className="relative z-10">
+            <h1 className="font-bricolage font-extrabold leading-[0.92] whitespace-nowrap">
+              <span
+                className="block text-white"
+                style={{ fontSize: "clamp(72px, 13vw, 168px)", letterSpacing: "-4px" }}
+              >
+                da reppy
+              </span>
+              <span
+                className="block text-primary"
+                style={{ fontSize: "clamp(200px, 13vw, 168px)", letterSpacing: "-4px" }}
+              >
+                PRA VC.
+              </span>
+              <span className="sr-only">
+                Eventos, festas e ingressos universitários perto de você
+              </span>
+            </h1>
+          </div>
+
+          {/* sub + CTA */}
+          <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-end gap-8">
+         
+            <Link
+              href="/eventos"
+              className="group relative inline-flex h-[54px] items-center justify-center overflow-hidden rounded-pill border-2 border-primary font-display font-extrabold tracking-tight text-[15px] shrink-0"
+            >
+              <div className="inline-flex h-full items-center justify-center gap-2 px-7 bg-primary text-black transition duration-500 group-hover:-translate-y-[150%]">
+                explorar eventos
+                <ArrowRight size={15} weight="bold" />
+              </div>
+              <div className="absolute inline-flex h-full w-full translate-y-full items-center justify-center text-primary transition duration-500 group-hover:translate-y-0">
+                <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-black transition duration-500 group-hover:translate-y-0 group-hover:scale-150" />
+                <span className="z-10 inline-flex items-center gap-2">
+                  explorar eventos
+                  <ArrowRight size={15} weight="bold" />
+                </span>
+              </div>
+            </Link>
+          </div>
+
+          {/* imagem — lado direito do hero (desktop) */}
+          <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:-right-12 lg:z-0 lg:pointer-events-none">
+            <Image
+              src="/mao-liquido-verde.png"
+              alt="Mão derramando líquido verde neon"
+              width={1122}
+              height={1402}
+              priority
+              className="h-full w-auto object-contain object-right drop-shadow-[0_0_60px_rgba(27,255,17,0.25)]"
+            />
+          </div>
         </div>
-        <div className="absolute inline-flex h-full w-full translate-y-full items-center justify-center text-primary transition duration-500 group-hover:translate-y-0">
-          <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-black transition duration-500 group-hover:translate-y-0 group-hover:scale-150" />
-          <span className="z-10 inline-flex items-center gap-2">
-            explorar eventos
-            <ArrowRight size={16} weight="bold" />
-          </span>
-        </div>
-      </Link>
-    </div>
-  </div>
-</section>
+
+      </section>
 
       {/* ── TICKER ── */}
       <div className="bg-primary border-y-2 border-black py-3 overflow-hidden">
@@ -171,56 +165,50 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {AUDIENCES.map(({ Icon, tag, title, desc, cta, href, dark, external }) => {
-            const ctaClass = `flex items-center gap-1.5 font-display text-sm font-bold tracking-tight w-fit transition-colors ${
-              dark ? "text-primary" : "text-black hover:text-primary"
-            }`;
-
-            return (
-              <div
-                key={title}
-                className={`flex flex-col justify-between gap-10 p-8 rounded-card-lg border transition-all duration-200 hover:-translate-y-1 ${
-                  dark
-                    ? "bg-black border-black text-white"
-                    : "bg-off-white border-gray-200 text-black hover:border-gray-400"
+          {AUDIENCES.map(({ Icon, tag, title, desc, cta, href, external, dark }) => (
+            <div
+              key={title}
+              className={`flex flex-col justify-between gap-10 p-8 rounded-card-lg border transition-all duration-200 hover:-translate-y-1 ${
+                dark
+                  ? "bg-black border-black text-white"
+                  : "bg-off-white border-gray-200 text-black hover:border-gray-400"
+              }`}
+            >
+              <div className="flex flex-col gap-6">
+                <div className="flex items-start justify-between">
+                  <span className={`flex items-center justify-center w-10 h-10 rounded-card-sm bg-primary`}>
+                    <Icon size={20} weight="bold" className="text-black" />
+                  </span>
+                  <span className={`font-body text-[11px] font-semibold uppercase tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
+                    {tag}
+                  </span>
+                </div>
+                <div>
+                  <h3
+                    className="font-display font-extrabold leading-none tracking-tight mb-3"
+                    style={{ fontSize: "clamp(28px, 2.5vw, 36px)", letterSpacing: "-1px" }}
+                  >
+                    {title}
+                  </h3>
+                  <p className={`font-body text-sm leading-relaxed ${dark ? "text-gray-400" : "text-gray-600"}`}>
+                    {desc}
+                  </p>
+                </div>
+              </div>
+              <Link
+                href={href}
+                {...(external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className={`flex items-center gap-1.5 font-display text-sm font-bold tracking-tight w-fit transition-colors ${
+                  dark ? "text-primary" : "text-black hover:text-primary"
                 }`}
               >
-                <div className="flex flex-col gap-6">
-                  <div className="flex items-start justify-between">
-                    <span className="flex items-center justify-center w-10 h-10 rounded-card-sm bg-primary">
-                      <Icon size={20} weight="bold" className="text-black" />
-                    </span>
-                    <span className={`font-body text-[11px] font-semibold uppercase tracking-widest ${dark ? "text-gray-600" : "text-gray-400"}`}>
-                      {tag}
-                    </span>
-                  </div>
-                  <div>
-                    <h3
-                      className="font-display font-extrabold leading-none tracking-tight mb-3"
-                      style={{ fontSize: "clamp(28px, 2.5vw, 36px)", letterSpacing: "-1px" }}
-                    >
-                      {title}
-                    </h3>
-                    <p className={`font-body text-sm leading-relaxed ${dark ? "text-gray-400" : "text-gray-600"}`}>
-                      {desc}
-                    </p>
-                  </div>
-                </div>
-
-                {external ? (
-                  <a href={href} target="_blank" rel="noopener noreferrer" className={ctaClass}>
-                    {cta}
-                    <ArrowRight size={14} weight="bold" />
-                  </a>
-                ) : (
-                  <Link href={href} className={ctaClass}>
-                    {cta}
-                    <ArrowRight size={14} weight="bold" />
-                  </Link>
-                )}
-              </div>
-            );
-          })}
+                {cta}
+                <ArrowRight size={14} weight="bold" />
+              </Link>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -266,9 +254,9 @@ export default function HomePage() {
           className="font-bricolage font-extrabold text-black leading-[1.0]"
           style={{ fontSize: "clamp(30px, 4vw, 56px)", letterSpacing: "-2px" }}
         >
-          "A gente não vende ingresso.{" "}
+          “A gente não vende ingresso.{" "}
           <span className="text-primary">A gente conecta pessoas</span>
-          {" "}— de rep pra rep, de galera pra galera, de hoje pra uma noite que fica na memória."
+          {" "}— de rep pra rep, de galera pra galera, de hoje pra uma noite que fica na memória.”
         </blockquote>
 
       </section>
@@ -313,7 +301,7 @@ export default function HomePage() {
             tá esperando<br />
             <span className="text-primary">o quê?</span>
           </h2>
-
+     
           <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
             <Link
               href="/login"
@@ -334,4 +322,4 @@ export default function HomePage() {
 
     </div>
   );
-}
+} 

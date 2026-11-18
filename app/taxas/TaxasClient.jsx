@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { ORGANIZADORES_URL } from "@/lib/seo";
 
 // ── fee logic ─────────────────────────────────────────────────────────────────
 const reppyRate = (p) => (p <= 10 ? 0.1 : 0.08);
-const calcReppy = (p) => Math.max(p * reppyRate(p), 0.8);
+const calcReppy = (p) => p * reppyRate(p);
 const calcChe   = (p) => p * 0.1;
 const calcSym   = (p) => Math.max(p * 0.1, p <= 39.9 ? 3.99 : 0);
 const calcEve   = (p) => Math.max(p * 0.085, 2.5);
@@ -52,7 +54,7 @@ function BadgeEventiza({ size = 32 }) {
 
 function BadgeReppy({ size = 32 }) {
   return (
-    <img src="/reppy_badge.jpg" alt="reppy" width={size} height={size}
+    <img src="/reppy_badge.jpg" alt="Selo da Reppy" width={size} height={size}
       style={{ borderRadius: 7, objectFit: "cover", display: "block", flexShrink: 0 }}/>
   );
 }
@@ -86,21 +88,6 @@ const PRESETS = [
   { label: "Show R$80",   price: 80,  qty: 300 },
 ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "Taxas — Reppy",
-  description: "Reppy cobra 8% de taxa a partir de R$11. Sem mensalidade, sem mínimo abusivo.",
-  url: "https://reppy.com.br/taxas",
-  provider: { "@type": "Organization", name: "Reppy", url: "https://reppy.com.br" },
-  mainEntity: {
-    "@type": "PriceSpecification",
-    name: "Taxa de serviço Reppy",
-    description: "8% para ingressos acima de R$10",
-    price: "8", priceCurrency: "BRL",
-  },
-};
-
 // ─────────────────────────────────────────────────────────────────────────────
 export default function TaxasClient() {
   const [price, setPrice] = useState(30);
@@ -122,8 +109,6 @@ export default function TaxasClient() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
       <style>{`
         @keyframes tick   { from{transform:translateX(0)} to{transform:translateX(-50%)} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
@@ -171,6 +156,7 @@ export default function TaxasClient() {
               style={{ fontSize:"clamp(52px,11vw,140px)", letterSpacing:"clamp(-2px,-0.04em,-4px)" }}>
               Mais festa.<br />
               <span className="text-[#1BFF11]">Menos taxa.</span>
+              <span className="sr-only">Taxas de ingressos Reppy</span>
             </h1>
             <p className="font-body text-[15px] sm:text-[17px] text-[#5C5C52] leading-[1.8] max-w-sm">
               Sem mensalidade, sem taxa escondida,<br className="hidden sm:block" />sem surpresa no fechamento.
@@ -190,7 +176,7 @@ export default function TaxasClient() {
                 </h2>
               </div>
               <p className="font-body text-[14px] sm:text-[15px] text-[#9A9A8F] leading-[1.8] sm:max-w-[260px] sm:pt-2">
-                8% fixo acima de R$10. Taxa mínima de R$0,80 por ingresso.
+                10% até R$10. 8% fixo acima de R$10, sem taxa mínima por ingresso.
               </p>
             </div>
 
@@ -216,7 +202,7 @@ export default function TaxasClient() {
               ))}
             </div>
             <p className="font-body text-[12px] sm:text-[13px] text-[#9A9A8F] leading-[1.7] mt-4">
-              Para qualquer ingresso, a taxa nunca fica abaixo de R$0,80 — mesmo nos mais baratos, o piso garante que o custo da transação é sempre coberto.
+              A taxa acompanha o percentual da faixa do ingresso. Não há piso fixo adicional por transação.
             </p>
           </div>
         </section>
@@ -455,10 +441,10 @@ export default function TaxasClient() {
             </div>
             {/* Buttons: full-width on mobile, auto on desktop */}
             <div className="flex flex-col gap-3 sm:shrink-0 w-full sm:w-auto">
-              <a href="/criar-evento"
+              <Link href={ORGANIZADORES_URL} target="_blank" rel="noopener noreferrer"
                 className="font-bricolage font-bold text-[14px] sm:text-[15px] px-7 sm:px-9 py-4 sm:py-5 rounded-full bg-[#0A0A0A] text-[#F7F7F2] no-underline inline-flex items-center justify-center gap-2 hover:bg-[#1a1a1a] transition-colors text-center">
                 Criar evento grátis →
-              </a>
+              </Link>
               <a href="#simulador"
                 className="font-bricolage font-bold text-[13px] sm:text-[14px] px-7 sm:px-9 py-4 sm:py-5 rounded-full border-[1.5px] border-[#E0E0D8] text-[#9A9A8F] no-underline text-center hover:border-[#9A9A8F] transition-colors">
                 Simular de novo

@@ -47,7 +47,8 @@ export function LocationProvider({ children }) {
 
   // Pede permissão imediatamente ao entrar no app
   useEffect(() => {
-    requestLocation();
+    const timer = setTimeout(() => requestLocation(), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

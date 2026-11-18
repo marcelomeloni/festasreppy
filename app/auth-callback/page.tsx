@@ -46,7 +46,7 @@ function AuthCallbackContent() {
     <div className="flex flex-col items-center text-center animate-pulse">
       <Image
         src="/logo_preto.png"
-        alt="Reppy"
+        alt="Logo da Reppy"
         width={140}
         height={44}
         className="h-10 w-auto object-contain mb-8"

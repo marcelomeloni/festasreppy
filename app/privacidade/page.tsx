@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import {
   Lock,
   Ticket,
@@ -520,13 +521,13 @@ export default function PoliticaDePrivacidade() {
                 <Lock size={16} weight="bold" />
                 privacidade@reppy.app
               </a>
-              <a
+              <Link
                 href="/termos-de-uso"
                 className="inline-flex items-center gap-2 border border-[#2a2a2a] hover:border-[#5C5C52] text-[#9A9A8F] hover:text-white font-display font-bold text-[15px] px-7 py-3.5 rounded-full transition-all"
               >
                 Ver Termos de Uso
                 <ArrowRight size={15} weight="bold" />
-              </a>
+              </Link>
             </div>
           </div>
         </section>

@@ -21,19 +21,21 @@ const PIX_KEY_TYPES = [
 ]
 
 const ESCROW_LABEL: Record<string, string> = {
-  pending:  'Aguardando',
-  held:     'Liberado',
-  released: 'Sacado',
-  cancelled:'Cancelado',
-  refunded: 'Reembolsado',
+  pending:            'Aguardando',
+  held:               'Liberado',
+  withdraw_requested: 'Saque solicitado',
+  released:           'Sacado',
+  cancelled:          'Cancelado',
+  refunded:           'Reembolsado',
 }
 
 const ESCROW_COLOR: Record<string, string> = {
-  pending:  'text-yellow-600 bg-yellow-50 border-yellow-200',
-  held:     'text-blue-600 bg-blue-50 border-blue-200',
-  released: 'text-green-600 bg-green-50 border-green-200',
-  cancelled:'text-gray-500 bg-gray-50 border-gray-200',
-  refunded: 'text-red-600 bg-red-50 border-red-200',
+  pending:            'text-yellow-600 bg-yellow-50 border-yellow-200',
+  held:               'text-blue-600 bg-blue-50 border-blue-200',
+  withdraw_requested: 'text-amber-700 bg-amber-50 border-amber-200',
+  released:           'text-green-600 bg-green-50 border-green-200',
+  cancelled:          'text-gray-500 bg-gray-50 border-gray-200',
+  refunded:           'text-red-600 bg-red-50 border-red-200',
 }
 
 const formatBRL = (v: number) =>
@@ -69,9 +71,10 @@ export default function AccountPixKey({
   const [summary,       setSummary]       = useState<SalesSummary | null>(null)
   const [salesLoading,  setSalesLoading]  = useState(true)
   
-  const [withdrawing,     setWithdrawing]     = useState(false)
-  const [withdrawError,   setWithdrawError]   = useState<string | null>(null)
-  const [withdrawSuccess, setWithdrawSuccess] = useState(false)
+  const [withdrawing,      setWithdrawing]      = useState(false)
+  const [withdrawError,    setWithdrawError]    = useState<string | null>(null)
+  const [withdrawSuccess,  setWithdrawSuccess]  = useState(false)
+  const [withdrawRequestId, setWithdrawRequestId] = useState<string | null>(null)
 
   const selectedType = PIX_KEY_TYPES.find((t) => t.value === pixKeyType)
 
@@ -113,11 +116,13 @@ export default function AccountPixKey({
     setWithdrawing(true)
     setWithdrawError(null)
     setWithdrawSuccess(false)
+    setWithdrawRequestId(null)
     try {
-      await marketSellerService.withdraw()
+      const result = await marketSellerService.withdraw()
+      setWithdrawRequestId(result.requestId)
       setWithdrawSuccess(true)
       await fetchSales()
-      setTimeout(() => setWithdrawSuccess(false), 5000)
+      setTimeout(() => setWithdrawSuccess(false), 8000)
     } catch (err: unknown) {
       setWithdrawError(err instanceof Error ? err.message : 'Erro ao processar saque.')
     } finally {
@@ -156,7 +161,7 @@ export default function AccountPixKey({
             {summary.totalPending > 0 && (
               <div className="flex flex-col gap-1 text-right">
                 <span className="font-body text-[10px] font-bold uppercase tracking-widest text-[#5C5C52]">
-                  Aguardando
+                  Aguardando repasse
                 </span>
                 <span className="font-bricolage text-[18px] font-bold text-[#E0E0D8] leading-none">
                   {formatBRL(summary.totalPending)}
@@ -175,16 +180,26 @@ export default function AccountPixKey({
                   : 'bg-primary text-black hover:bg-primary-dark hover:scale-[1.02] shadow-[0_0_20px_rgba(27,255,17,0.3)]'
               }`}
             >
-              {withdrawing ? 'Processando...' : 'Sacar Saldo Total'}
+              {withdrawing ? 'Solicitando...' : 'Solicitar saque'}
             </button>
           )}
 
           {withdrawSuccess && (
-            <div className="flex items-center justify-center gap-2 px-4 py-3 bg-[#1BFF11]/10 rounded-[12px] border border-[#1BFF11]/20">
-              <CheckCircle size={16} weight="fill" className="text-primary-dark" />
-              <span className="font-body text-[13px] font-bold text-primary-dark">
-                PIX enviado com sucesso!
+            <div className="flex flex-col gap-1 px-4 py-3 bg-[#1BFF11]/10 rounded-[12px] border border-[#1BFF11]/20">
+              <div className="flex items-center justify-center gap-2">
+                <CheckCircle size={16} weight="fill" className="text-primary-dark" />
+                <span className="font-body text-[13px] font-bold text-primary-dark">
+                  Solicitação de saque enviada!
+                </span>
+              </div>
+              <span className="font-body text-[11px] text-primary-dark/80 text-center">
+                O repasse será feito pela Reppy. Você receberá quando o pagamento for confirmado no painel administrativo.
               </span>
+              {withdrawRequestId && (
+                <span className="font-mono text-[10px] text-primary-dark/70 text-center break-all">
+                  Protocolo: {withdrawRequestId}
+                </span>
+              )}
             </div>
           )}
 
@@ -243,11 +258,17 @@ export default function AccountPixKey({
                 <div className="flex items-center justify-between font-body text-[13px]">
                   <span className="text-[#5C5C52]">Valor líquido</span>
                   <span className="font-extrabold text-black font-bricolage text-[16px] tracking-tight">
-                    {formatBRL(sale.netAmount)}
-                  </span>
-                </div>
+                {formatBRL(sale.netAmount)}
+              </span>
+            </div>
 
-                {sale.escrowStatus === 'held' && !sale.canWithdraw && (
+            {sale.withdrawRequestId && (
+              <p className="font-mono text-[10px] text-[#9A9A8F] break-all">
+                Protocolo: {sale.withdrawRequestId}
+              </p>
+            )}
+
+            {sale.escrowStatus === 'held' && !sale.canWithdraw && (
                   <div className="flex items-center gap-2 px-3 py-2 bg-[#F7F7F2] rounded-[8px] mt-1">
                     <LockSimple size={12} className="text-[#9A9A8F] shrink-0" />
                     <p className="font-body text-[11px] text-[#5C5C52] leading-tight">
@@ -320,7 +341,7 @@ export default function AccountPixKey({
         <div className="flex items-start gap-2 mt-1">
           <Clock size={13} className="text-[#9A9A8F] shrink-0 mt-0.5" />
           <p className="font-body text-[11px] text-[#9A9A8F]">
-            Saques disponíveis 48h antes do evento ou após 7 dias da venda confirmada.
+            Saques disponíveis 48h antes do evento ou após 7 dias da venda confirmada. Após solicitar, o repasse é feito manualmente pela Reppy.
           </p>
         </div>
       </div>

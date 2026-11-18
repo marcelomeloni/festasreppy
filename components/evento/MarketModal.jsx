@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Tag, X, ArrowRight } from "@phosphor-icons/react";
+import { Tag, X } from "@phosphor-icons/react";
 
 const formatBRL = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-const PAYMENT_FEE = 0.80;
 // Recebe os lotes já filtrados (1 por tipo, o mais barato)
 export function MarketModal({ lots, onClose }) {
   const [selected, setSelected] = useState(null); // só 1 por vez
@@ -63,7 +62,7 @@ export function MarketModal({ lots, onClose }) {
 
                   <div className="flex items-center gap-3 shrink-0">
                     <span className="font-bricolage font-extrabold text-black text-xl leading-none">
-                      {formatBRL(lot.price + PAYMENT_FEE)}
+                      {formatBRL(lot.price)}
                     </span>
                     {/* Indicador de seleção */}
                     <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
@@ -85,7 +84,7 @@ export function MarketModal({ lots, onClose }) {
               <div className="flex justify-between items-baseline">
                 <span className="font-body text-base font-bold text-black">Total</span>
                 <span className="font-bricolage font-extrabold text-black text-2xl leading-none" style={{ letterSpacing: "-0.5px" }}>
-                  {formatBRL(subtotal + PAYMENT_FEE)}
+                  {formatBRL(subtotal)}
                 </span>
               </div>
             )}

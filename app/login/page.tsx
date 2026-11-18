@@ -43,7 +43,7 @@ export default function LoginPage() {
           <div className="relative w-full h-[80vh] max-h-[700px] overflow-hidden">
             <Image
               src="/loginimage.png"
-              alt="Imagem de login"
+              alt="Estudantes curtindo uma festa universitária Reppy"
               fill
               className="object-cover"
               priority
@@ -57,6 +57,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <h1 className="font-bricolage text-[32px] font-extrabold text-black tracking-tight mb-3 lowercase">
             bora pro rolê.
+            <span className="sr-only">Entrar ou criar conta Reppy</span>
           </h1>
           <p className="font-body text-[15px] text-gray-500 mb-8 font-medium">
             {mode === "login" ? "Entre para descobrir as melhores festas." : "Crie sua conta e comece a curtir."}

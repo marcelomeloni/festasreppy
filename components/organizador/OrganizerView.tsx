@@ -6,8 +6,38 @@ import OrganizerTabs from '@/components/organizador/OrganizerTabs';
 import OrganizerEventos from '@/components/organizador/OrganizerEventos';
 import OrganizerLinks from '@/components/organizador/OrganizerLinks';
 
-// Ele só recebe os dados prontos por props
-export default function OrganizerView({ organizador, eventos }: any) {
+interface OrganizerViewProps {
+  organizador: {
+    nome: string;
+    bannerUrl: string | null;
+    avatarUrl: string | null;
+    cidade: string | null;
+    seguidores: number;
+    isFollowing: boolean;
+    slug: string;
+    contatos?: {
+      instagram?: string | null;
+      email?: string | null;
+      whatsapp?: string | null;
+    };
+    links?: { tipo: string; label: string; url: string }[];
+  };
+  eventos: {
+    id: string;
+    slug: string;
+    nome: string;
+    data: string;
+    hora: string;
+    local: string;
+    imagemUrl: string;
+    status: "normal" | "encerrado";
+  }[];
+}
+
+export default function OrganizerView({
+  organizador,
+  eventos,
+}: OrganizerViewProps) {
   const [activeTab, setActiveTab] = useState<'eventos' | 'links'>('eventos');
 
   return (

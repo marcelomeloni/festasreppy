@@ -28,7 +28,7 @@ export default function OrganizerHero({ organizador }: OrganizerHeroProps) {
       {/* Banner */}
       <div className="relative w-full h-[220px] overflow-hidden rounded-b-[28px] bg-[#0A0A0A]">
         {organizador.bannerUrl ? (
-          <img src={organizador.bannerUrl} alt="banner" className="w-full h-full object-cover" />
+          <img src={organizador.bannerUrl} alt={`Banner do organizador ${organizador.nome}`} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d]" />
         )}

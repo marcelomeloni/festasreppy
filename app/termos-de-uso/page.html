@@ -556,7 +556,7 @@
   <div class="hero-inner">
     <div class="hero-badge">📄 Documento legal</div>
     <h1>Termos<br>de <span>Uso</span></h1>
-    <p class="hero-meta">Última atualização: março de 2026 · Versão 1.0</p>
+    <p class="hero-meta">Última atualização: novembro de 2026 · Versão 1.2</p>
   </div>
 </section>
 
@@ -570,7 +570,7 @@
       <li>No Reppy Market, o dinheiro fica em escrow e só vai pro vendedor após confirmação de entrada.</li>
       <li>O ingresso revendido sempre custa menos que o lote atual em venda. Sem exceção.</li>
       <li>Problemas no evento (segurança, cancelamento, alvarás) são responsabilidade do organizador.</li>
-      <li>Sua taxa de serviço aparece sempre antes de você confirmar a compra.</li>
+      <li>A taxa de serviço, quando aplicável, aparece sempre antes de você confirmar a compra.</li>
     </ul>
   </div>
 </div>
@@ -697,8 +697,8 @@
     <div class="subsection">
       <h3>Sobre vendas e taxas</h3>
       <ul class="styled-list">
-        <li>O organizador aceita a estrutura de taxas vigente antes de publicar o evento. A taxa aparece explicitamente no dashboard antes de qualquer publicação.</li>
-        <li>O repasse dos valores arrecadados é realizado conforme o cronograma da plataforma, após dedução da taxa de serviço.</li>
+        <li>O organizador aceita a estrutura de taxas vigente e a configuração de quem paga a taxa antes de publicar o evento. O valor e o responsável pela taxa aparecem explicitamente no dashboard antes de qualquer publicação.</li>
+        <li>O repasse é realizado conforme o cronograma da plataforma, líquido das taxas atribuídas ao organizador, descontos e estornos aplicáveis. A taxa repassada ao comprador é somada ao total pago por ele.</li>
         <li>Em caso de chargeback solicitado pelo comprador por problemas no evento, o valor é estornado ao comprador e descontado do repasse ao organizador.</li>
         <li>O organizador pode ativar ou desativar o Reppy Market para seu evento a qualquer momento antes do início das vendas secundárias.</li>
       </ul>
@@ -758,7 +758,8 @@
       <span class="section-num green">08</span>
       <h2>Pagamento e taxas</h2>
     </div>
-    <p>A Reppy cobra uma taxa de serviço sobre cada ingresso vendido. Essa taxa é cobrada do organizador — <strong>o comprador nunca paga taxa extra</strong> além do valor do ingresso.</p>
+    <p>A Reppy cobra uma taxa de serviço sobre cada ingresso pago vendido. A taxa é calculada por ingresso e pode ser paga pelo comprador ou assumida pelo organizador, conforme a configuração de cada lote. Quando fica a cargo do comprador, é somada ao valor do ingresso e exibida antes da confirmação da compra; quando fica a cargo do organizador, é descontada do repasse.</p>
+    <p>Por padrão, novos lotes são configurados com a taxa a cargo do comprador, mas o organizador pode alterar essa escolha.</p>
     <div class="subsection">
       <h3>Estrutura de taxas</h3>
       <div class="table-wrap">
@@ -766,25 +767,25 @@
           <thead>
             <tr>
               <th>Faixa de preço</th>
-              <th>Taxa permanente</th>
+              <th>Taxa</th>
               <th>Quem paga</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Até R$10</td><td>10%</td><td>Organizador</td></tr>
-            <tr><td>R$11 – R$14</td><td>8%</td><td>Organizador</td></tr>
-            <tr><td>R$15 ou mais</td><td>7%</td><td>Organizador</td></tr>
+            <tr><td>Até R$10</td><td>10%</td><td>Comprador ou organizador</td></tr>
+            <tr><td>R$11 ou mais</td><td>Percentual da organização (8% padrão)</td><td>Comprador ou organizador</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-    <p>Eventos estratégicos selecionados pela Reppy podem receber <strong>taxa promocional</strong> temporária (entre 4% e 6%). A taxa exata é exibida no dashboard antes da publicação. Após o período promocional, o evento migra automaticamente para a taxa permanente.</p>
-    <p>A transição de taxa promocional para permanente será comunicada ao organizador com aviso prévio dentro da plataforma.</p>
+    <p>Não há taxa mínima fixa por ingresso. A Reppy pode definir percentuais diferenciados por organização; esse percentual se aplica apenas a ingressos acima de R$10. Ingressos gratuitos não geram taxa.</p>
+    <p>O valor exato e o responsável pela taxa são exibidos no dashboard antes da publicação e ao comprador antes da confirmação.</p>
     <div class="subsection">
       <h3>Repasse ao organizador</h3>
       <ul class="styled-list">
-        <li>O valor arrecadado (líquido da taxa Reppy) fica disponível conforme o cronograma definido pela plataforma para o evento.</li>
-        <li>Chargebacks comprovados por falha no evento são deduzidos do repasse ao organizador.</li>
+        <li>O valor líquido, após as deduções aplicáveis, fica disponível conforme o cronograma definido pela plataforma para o evento.</li>
+        <li>Taxas atribuídas ao organizador, descontos, chargebacks e estornos aplicáveis são deduzidos do repasse.</li>
+        <li>A taxa repassada ao comprador é somada ao total pago por ele e não reduz o valor-base dos ingressos do organizador.</li>
         <li>Todos os dados de vendas e repasses estão disponíveis no dashboard do organizador em tempo real.</li>
       </ul>
     </div>
@@ -804,7 +805,7 @@
     <div class="subsection">
       <h3>Regra central do preço</h3>
       <div class="card dark">
-        <p>O ingresso revendido precisa obrigatoriamente custar <strong style="color: var(--color-primary)">menos que o preço do lote atual em venda</strong>. Se o lote atual está R$40, o valor máximo de revenda é R$39. O sistema bloqueia automaticamente qualquer tentativa de ultrapassar esse limite. Sem exceção.</p>
+        <p>O ingresso revendido precisa obrigatoriamente custar <strong style="color: var(--color-primary)">menos que o preço do lote atual em venda</strong>. Se o lote atual está R$40, o valor máximo de revenda é R$39,99. O sistema bloqueia automaticamente qualquer tentativa de ultrapassar esse limite. Sem exceção.</p>
       </div>
     </div>
     <div class="subsection">
@@ -825,7 +826,7 @@
     </div>
     <div class="subsection">
       <h3>Taxa do Reppy Market</h3>
-      <p>O comprador não paga taxa adicional. O vendedor paga uma taxa sobre o valor da revenda (entre 8% e 12%), já embutida no preço exibido. A taxa exata é sempre mostrada antes de confirmar a listagem.</p>
+      <p>Não há taxa adicional do Reppy Market. O comprador paga apenas o valor da revenda e o vendedor recebe o valor da listagem.</p>
     </div>
     <div class="subsection">
       <h3>Transferência do ingresso</h3>
@@ -1003,7 +1004,6 @@
       <h2>Alterações nos termos</h2>
     </div>
     <p>A Reppy pode atualizar estes termos a qualquer momento. Alterações relevantes — especialmente em taxas — serão comunicadas ao organizador com aviso prévio por escrito dentro da plataforma.</p>
-    <p>Para mudança de taxa promocional para permanente, o aviso será dado com pelo menos 15 dias de antecedência.</p>
     <p>O uso continuado da plataforma após a publicação de novos termos implica na aceitação das alterações. Se você não concordar com os novos termos, deve encerrar sua conta e interromper o uso da plataforma.</p>
   </section>
 
@@ -1013,7 +1013,7 @@
       <span class="section-num">16</span>
       <h2>Foro e legislação aplicável</h2>
     </div>
-    <p>Estes termos são regidos pelas leis da República Federativa do Brasil. Em caso de conflito, fica eleito o foro da comarca de <strong>[cidade-sede da Reppy]</strong>, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
+    <p>Estes termos são regidos pelas leis da República Federativa do Brasil. Em caso de conflito, fica eleito o foro da comarca de <strong>São Paulo/SP</strong>, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
     <p>A relação entre a Reppy e os usuários é regulada, especialmente, pelo Código de Defesa do Consumidor (Lei 8.078/1990), pelo Marco Civil da Internet (Lei 12.965/2014) e pela Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
   </section>
 

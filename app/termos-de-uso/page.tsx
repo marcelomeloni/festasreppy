@@ -1,6 +1,27 @@
+import Link from "next/link";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMetadata, webPageSchema } from "@/lib/seo";
+
+const description =
+  "Conheça as regras de uso da Reppy, direitos e deveres dos usuários, compras, reembolsos e privacidade na plataforma de eventos universitários com clareza.";
+
+export const metadata = pageMetadata({
+  title: "Termos de uso",
+  description,
+  path: "/termos-de-uso",
+  noindex: true,
+});
+
 export default function TermosDeUso() {
   return (
     <div className="min-h-screen bg-[#F7F7F2] text-[#0A0A0A]">
+      <JsonLd
+        data={webPageSchema({
+          title: "Termos de uso",
+          description,
+          path: "/termos-de-uso",
+        })}
+      />
 
  
 
@@ -16,7 +37,7 @@ export default function TermosDeUso() {
             Termos<br />de <span className="text-[#1BFF11]">Uso</span>
           </h1>
           <p className="text-sm font-semibold text-[#9A9A8F]">
-            Última atualização: março de 2026 · Versão 1.0
+            Última atualização: novembro de 2026 · Versão 1.2
           </p>
         </div>
       </section>
@@ -38,7 +59,7 @@ export default function TermosDeUso() {
               "No Reppy Market, o dinheiro fica em escrow e só vai pro vendedor após confirmação de entrada.",
               "O ingresso revendido sempre custa menos que o lote atual em venda. Sem exceção.",
               "Problemas no evento (segurança, cancelamento, alvarás) são responsabilidade do organizador.",
-              "Sua taxa de serviço aparece sempre antes de você confirmar a compra.",
+              "A taxa de serviço, quando aplicável, aparece sempre antes de você confirmar a compra.",
             ].map((item) => (
               <li key={item} className="flex items-start gap-3 text-[#F0F0EB] text-[15px] leading-relaxed">
                 <span className="text-[#1BFF11] font-display font-bold text-sm flex-shrink-0 mt-0.5">✓</span>
@@ -195,8 +216,8 @@ export default function TermosDeUso() {
           </Subsection>
           <Subsection title="Sobre vendas e taxas">
             <BulletList items={[
-              "O organizador aceita a estrutura de taxas vigente antes de publicar o evento. A taxa aparece explicitamente no dashboard antes de qualquer publicação.",
-              "O repasse dos valores arrecadados é realizado conforme o cronograma da plataforma, após dedução da taxa de serviço.",
+              "O organizador aceita a estrutura de taxas vigente e a configuração de quem paga a taxa antes de publicar o evento. O valor e o responsável pela taxa aparecem explicitamente no dashboard antes de qualquer publicação.",
+              "O repasse é realizado conforme o cronograma da plataforma, líquido das taxas atribuídas ao organizador, descontos e estornos aplicáveis. A taxa repassada ao comprador é somada ao total pago por ele.",
               "Em caso de chargeback solicitado pelo comprador por problemas no evento, o valor é estornado ao comprador e descontado do repasse ao organizador.",
               "O organizador pode ativar ou desativar o Reppy Market para seu evento a qualquer momento antes do início das vendas secundárias.",
             ]} />
@@ -247,23 +268,30 @@ export default function TermosDeUso() {
         {/* 8. PAGAMENTO */}
         <Section id="pagamento" num="08" title="Pagamento e taxas" green>
           <Body>
-            A Reppy cobra uma taxa de serviço sobre cada ingresso vendido. Essa taxa é cobrada do
-            organizador — <strong>o comprador nunca paga taxa extra</strong> além do valor do ingresso.
+            A Reppy cobra uma taxa de serviço sobre cada ingresso pago vendido. A taxa é calculada
+            por ingresso e pode ser paga pelo comprador ou assumida pelo organizador, conforme a
+            configuração de cada lote. Quando fica a cargo do comprador, é somada ao valor do
+            ingresso e exibida antes da confirmação da compra; quando fica a cargo do organizador,
+            é descontada do repasse.
+          </Body>
+          <Body>
+            Por padrão, novos lotes são configurados com a taxa a cargo do comprador, mas o
+            organizador pode alterar essa escolha.
           </Body>
           <Subsection title="Estrutura de taxas">
             <div className="overflow-x-auto rounded-2xl border border-[#E0E0D8] mt-3">
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="bg-[#0A0A0A]">
-                    {["Faixa de preço", "Taxa permanente", "Quem paga"].map((h) => (
+                    {["Faixa de preço", "Taxa", "Quem paga"].map((h) => (
                       <th key={h} className="font-display font-bold text-[11px] tracking-[1.5px] uppercase text-[#9A9A8F] px-4 py-3.5 text-left">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    ["Até R$10", "10%", "Organizador Escolhe"],
-                    ["R$11 ou mais", "8%", "Organizador Escolhe"],
+                    ["Até R$10", "10%", "Comprador ou organizador"],
+                    ["R$11 ou mais", "Percentual da organização (8% padrão)", "Comprador ou organizador"],
                   ].map(([faixa, taxa, quem]) => (
                     <tr key={faixa} className="border-t border-[#E0E0D8] hover:bg-[#F0F0EB] transition-colors">
                       <td className="px-4 py-3.5 font-display font-semibold text-[14px]">{faixa}</td>
@@ -276,11 +304,19 @@ export default function TermosDeUso() {
             </div>
           </Subsection>
           <Body>
-            Para qualquer ingresso, a taxa nunca fica abaixo de <strong>R$0,80</strong> — mesmo em
-            ingressos mais baratos, o piso garante que o custo da transação é sempre coberto. A Reppy
-            pode oferecer taxas diferenciadas a organizações específicas, sempre respeitando o piso
-            mínimo. A taxa exata é exibida no dashboard antes da publicação.
+            Não há taxa mínima fixa por ingresso. A Reppy pode definir percentuais diferenciados por
+            organização; esse percentual se aplica apenas a ingressos acima de R$10. Ingressos
+            gratuitos não geram taxa. O valor exato e o responsável pela taxa são exibidos no
+            dashboard antes da publicação e ao comprador antes da confirmação.
           </Body>
+          <Subsection title="Repasse ao organizador">
+            <BulletList items={[
+              "O valor líquido fica disponível conforme o cronograma da plataforma.",
+              "Taxas atribuídas ao organizador, descontos, chargebacks e estornos aplicáveis são deduzidos do repasse.",
+              "A taxa repassada ao comprador não reduz o valor-base dos ingressos do organizador.",
+              "Vendas e repasses ficam disponíveis no dashboard do organizador.",
+            ]} />
+          </Subsection>
           <Subsection title="Formas de pagamento">
             <Body>
               Cartão de crédito e Pix. O pagamento via Pix deve ser confirmado em até 30 minutos após a
@@ -300,7 +336,7 @@ export default function TermosDeUso() {
               <p className="text-[#F0F0EB] text-[15px] leading-relaxed">
                 O ingresso revendido precisa obrigatoriamente custar{" "}
                 <strong className="text-[#1BFF11]">menos que o preço do lote atual em venda</strong>. Se o
-                lote atual está R$40, o valor máximo de revenda é R$39. O sistema bloqueia automaticamente
+                lote atual está R$40, o valor máximo de revenda é R$39,99. O sistema bloqueia automaticamente
                 qualquer tentativa de ultrapassar esse limite. Sem exceção.
               </p>
             </div>
@@ -336,9 +372,8 @@ export default function TermosDeUso() {
           </Subsection>
           <Subsection title="Taxa do Reppy Market">
             <Body>
-              O vendedor não paga taxa adicional. O comprador paga uma taxa sobre o valor da revenda
-              (R$1,60), já embutida no preço exibido. A taxa exata é sempre mostrada antes de
-              confirmar a listagem.
+              Não há taxa adicional do Reppy Market. O comprador paga apenas o valor da revenda e o
+              vendedor recebe o valor da listagem.
             </Body>
           </Subsection>
           <Subsection title="Transferência do ingresso">
@@ -525,9 +560,9 @@ export default function TermosDeUso() {
           </Subsection>
           <Body>
             Para mais detalhes sobre como tratamos seus dados, consulte nossa{" "}
-            <a href="/privacidade" className="text-[#0FD40A] font-semibold hover:underline">
+            <Link href="/privacidade" className="text-[#0FD40A] font-semibold hover:underline">
               Política de Privacidade
-            </a>
+            </Link>
             .
           </Body>
         </Section>
@@ -559,10 +594,6 @@ export default function TermosDeUso() {
             em taxas — serão comunicadas ao organizador com aviso prévio por escrito dentro da plataforma.
           </Body>
           <Body>
-            Para mudança de taxa promocional para permanente, o aviso será dado com pelo menos 15 dias de
-            antecedência.
-          </Body>
-          <Body>
             O uso continuado da plataforma após a publicação de novos termos implica na aceitação das
             alterações. Se você não concordar com os novos termos, deve encerrar sua conta e interromper
             o uso da plataforma.
@@ -573,7 +604,7 @@ export default function TermosDeUso() {
         <Section id="foro" num="16" title="Foro e legislação aplicável">
           <Body>
             Estes termos são regidos pelas leis da República Federativa do Brasil. Em caso de conflito,
-            fica eleito o foro da comarca de <strong>[cidade-sede da Reppy]</strong>, com renúncia
+            fica eleito o foro da comarca de <strong>São Paulo/SP</strong>, com renúncia
             expressa a qualquer outro, por mais privilegiado que seja.
           </Body>
           <Body>

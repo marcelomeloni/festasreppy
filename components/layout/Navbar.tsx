@@ -69,7 +69,7 @@ export default function Navbar() {
 <Link href="/" className="shrink-0 flex items-center transition-opacity hover:opacity-80">
   <Image
     src="/preto.png"
-    alt="Reppy"
+    alt="Logo da Reppy"
     width={200}
     height={64}
     className="h-10 md:h-10 w-auto object-contain"

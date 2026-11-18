@@ -6,6 +6,12 @@ import { Ticket, Tag, ArrowRight } from "@phosphor-icons/react";
 import { MarketModal } from "@/components/evento/MarketModal";
 import { OfficialLot, OfficialCategory, MarketLot, PlatformFee, EventData } from "@/services/eventsService";
 import { buildCartFromSidebar, encodeCart } from "@/services/checkoutService";
+import {
+  cleanText,
+  getEventDateLabel,
+  getEventLocationPresentation,
+  getEventTitle,
+} from "@/lib/eventDisplay";
 
 function cheapestByType(lots: MarketLot[]): MarketLot[] {
   if (!lots?.length) return [];
@@ -72,7 +78,15 @@ export function EventSidebar({
     fixed: safeNum(platformFee?.fixed),
   };
 
+  const eventTitle = getEventTitle(event.title);
+  const eventDate = getEventDateLabel(event.date);
+  const eventLocation = getEventLocationPresentation(event).label;
+  const eventOrganizer = cleanText(event.organizer?.name) || "Organizador Reppy";
+
   const allLots = categories.flatMap((c) => c.lots);
+  const hasVisibleLots = categories.some((category) =>
+    category.lots.some((lot) => lot.unavailableReason !== "waiting_previous"),
+  );
 
   const selectedType: "free" | "paid" | null = (() => {
     for (const lot of allLots) {
@@ -115,10 +129,10 @@ export function EventSidebar({
     const cart = buildCartFromSidebar(
       event.id,
       event.slug,
-      event.title,
-      event.date ?? "",
-      event.locationName ?? "",
-      event.organizer?.name ?? "",
+      eventTitle,
+      eventDate,
+      eventLocation,
+      eventOrganizer,
       availableLots,
       qtys,
       fee,
@@ -180,7 +194,7 @@ export function EventSidebar({
                   <p className="font-body text-[11px] text-gray-500 mt-0.5">
                     {groupedMarketLots.length} tipos a partir de{" "}
                     <span className="font-bold text-black">
-                     {formatPrice(marketMin).free ? "Gratuito" : formatBRL(marketMin + 3.3)}
+                     {formatPrice(marketMin).free ? "Gratuito" : formatBRL(marketMin)}
                     </span>
                   </p>
                 </div>
@@ -192,9 +206,9 @@ export function EventSidebar({
           )}
 
           <div className="flex flex-col gap-6">
-            {categories.length === 0 ? (
+            {!hasVisibleLots ? (
               <p className="font-body text-sm text-gray-500 text-center py-4 border-2 border-dashed border-gray-200 rounded-[16px]">
-                Nenhum ingresso oficial à venda no momento.
+                Os ingressos ainda não foram divulgados.
               </p>
             ) : (
               categories.map((category) => {
@@ -379,11 +393,13 @@ export function EventSidebar({
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"
               }`}
             >
-              {totalQty > 0
-                ? allFree
-                  ? "Garantir ingresso"
-                  : "Comprar agora"
-                : "Selecione um ingresso"}
+              {!hasVisibleLots
+                ? "Ingressos em breve"
+                : totalQty > 0
+                  ? allFree
+                    ? "Garantir ingresso"
+                    : "Comprar agora"
+                  : "Selecione um ingresso"}
             </button>
           </div>
         </div>
@@ -393,9 +409,9 @@ export function EventSidebar({
   <MarketModal
     lots={groupedMarketLots}
     onClose={() => setMarketOpen(false)}
-    eventTitle={event.title}
-    eventDate={event.date ?? ""}
-    eventVenue={event.locationName ?? ""}
+    eventTitle={eventTitle}
+    eventDate={eventDate}
+    eventVenue={eventLocation}
     eventSlug={event.slug}
   />
 )}

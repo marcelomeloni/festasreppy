@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { InstagramLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
-const ORGANIZADORES_URL = "https://organizador.reppy.app.br";
+const ORGANIZADORES_URL = "https://organizadores.reppy.app.br";
 
 // Footer enxuto: Apenas o que importa para o usuário agora
 const FOOTER_LINKS = {
@@ -41,7 +41,7 @@ export default function Footer() {
             <Link href="/" className="inline-block transition-opacity hover:opacity-80">
               <Image
                 src="/preto.png"
-                alt="Reppy"
+                alt="Logo da Reppy"
                 width={120}
                 height={38}
                 className="h-8 md:h-10 w-auto object-contain"
@@ -58,7 +58,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="bg-white text-black border-2 border-gray-200 p-2.5 rounded-full hover:bg-primary hover:border-primary hover:text-black transition-all"
                 >

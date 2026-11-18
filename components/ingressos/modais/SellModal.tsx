@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation' // 1. Adicione esta importação
 import { X, Tag, WarningCircle, Trash } from '@phosphor-icons/react'
 import { ticketService } from '@/services/ticketService'
 import { MyTicket } from '@/services/myTicketsService'
@@ -12,8 +11,6 @@ interface SellModalProps {
 }
 
 export default function SellModal({ ingresso, onClose }: SellModalProps) {
-  const router = useRouter() // 2. Inicialize o router
-  
   const isEditing = ingresso.isListed && !!ingresso.listingId
 
   const [displayValue, setDisplayValue] = useState(() => {
@@ -32,7 +29,7 @@ export default function SellModal({ ingresso, onClose }: SellModalProps) {
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   const loteAtual   = ingresso.currentBatchPrice ?? null
-  const precoMaximo = loteAtual !== null ? loteAtual - 3.3 : null
+  const precoMaximo = loteAtual !== null ? loteAtual - 0.01 : null
 
   const handleMoneyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '')
@@ -70,9 +67,10 @@ export default function SellModal({ ingresso, onClose }: SellModalProps) {
       // Dá o F5 na página!
       window.location.reload() 
       
-    } catch (err: any) {
-      setError(err.message ?? 'Erro ao anunciar ingresso. Tente novamente.')
-      setLoading(false) // Coloquei o false aqui pra ele não travar no loading se der erro
+    } catch (err) {
+      const message = err instanceof Error ? err.message : undefined
+      setError(message ?? 'Erro ao anunciar ingresso. Tente novamente.')
+      setLoading(false)
     }
   }
 
@@ -86,9 +84,10 @@ export default function SellModal({ ingresso, onClose }: SellModalProps) {
       // Dá o F5 na página!
       window.location.reload() 
       
-    } catch (err: any) {
-      setError(err.message ?? 'Erro ao remover anúncio. Tente novamente.')
-      setDeleting(false) // Tira o loading do botão se der erro
+    } catch (err) {
+      const message = err instanceof Error ? err.message : undefined
+      setError(message ?? 'Erro ao remover anúncio. Tente novamente.')
+      setDeleting(false)
       setConfirmDelete(false)
     } 
   }

@@ -63,7 +63,8 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    requestLocation();
+    const timer = setTimeout(() => requestLocation(), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

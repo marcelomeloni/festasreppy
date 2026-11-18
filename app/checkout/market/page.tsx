@@ -11,7 +11,6 @@ import {
   decodeMarketCart,
   marketCheckoutService,
   MarketCartPayload,
-  MARKET_PLATFORM_FEE,
 } from "@/services/marketCheckoutService";
 import { ApiError } from "@/services/apiService";
 import { useAuth } from "@/contexts/AuthContext";

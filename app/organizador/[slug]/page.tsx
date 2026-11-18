@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import OrganizerView from "@/components/organizador/OrganizerView";
+import { pageMetadata } from "@/lib/seo";
 import { organizerService } from "@/services/organizerService";
 
 // ── SEO dinâmico ─────────────────────────────────────────────────────────────
@@ -11,20 +12,19 @@ export async function generateMetadata(
 
   try {
     const { organizer } = await organizerService.getOrganizerDetail(slug);
-    return {
-      title: organizer.name,
+    return pageMetadata({
+      title: `${organizer.name} — Organizador de eventos`,
       description: `Confira os próximos eventos e contatos de ${organizer.name} na Reppy.`,
-      openGraph: {
-        title: `${organizer.name} | Reppy`,
-        description: `Confira os próximos eventos e contatos de ${organizer.name}.`,
-        images: organizer.bannerUrl ? [organizer.bannerUrl] : [],
-      },
-    };
+      path: `/organizador/${slug}`,
+      images: organizer.bannerUrl ? [organizer.bannerUrl] : undefined,
+    });
   } catch {
-    return {
-      title: "Organizador não encontrado | Reppy",
+    return pageMetadata({
+      title: "Organizador não encontrado",
       description: "Este organizador não está disponível.",
-    };
+      path: `/organizador/${slug}`,
+      noindex: true,
+    });
   }
 }
 
