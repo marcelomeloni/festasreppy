@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sitemap": "node scripts/generate_sitemap.js",
+    "prebuild": "npm run sitemap"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

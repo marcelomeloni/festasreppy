@@ -5,6 +5,8 @@ export interface EventCard {
   title: string;
   slug: string;
   venue: string;
+  city: string;
+  state: string;
   date: string;
   time: string;
   category: string;
@@ -101,6 +103,45 @@ function toNumber(v: unknown): number {
   return isFinite(parsed) ? parsed : 0;
 }
 
+function text(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
+
+function normalizeEventCard(card: Partial<EventCard>): EventCard {
+  return {
+    id: text(card.id),
+    title: text(card.title),
+    slug: text(card.slug),
+    venue: text(card.venue),
+    city: text(card.city),
+    state: text(card.state),
+    date: text(card.date),
+    time: text(card.time),
+    category: text(card.category),
+    image: text(card.image),
+  };
+}
+
+function normalizeSections(sections: SectionResponse[] | null): SectionResponse[] {
+  if (!Array.isArray(sections)) return [];
+  return sections.map((section) => ({
+    id: text(section.id),
+    label: text(section.label),
+    events: (section.events ?? []).map(normalizeEventCard),
+  }));
+}
+
+function normalizeAddress(address: Partial<EventAddress> | null | undefined): EventAddress {
+  return {
+    street: text(address?.street),
+    number: text(address?.number),
+    city: text(address?.city),
+    state: text(address?.state),
+    zipCode: text(address?.zipCode),
+    neighborhood: text(address?.neighborhood),
+  };
+}
+
 function normalizeOfficialLot(lot: OfficialLot): OfficialLot {
   return {
     ...lot,
@@ -125,17 +166,39 @@ function normalizeMarketLot(lot: MarketLot): MarketLot {
 }
 
 function normalizeEventDetail(raw: EventDetailResponse): EventDetailResponse {
+  const event = raw?.event;
+
   return {
-    ...raw,
     event: {
-      ...raw.event,
+      ...event,
+      id: text(event?.id),
+      slug: text(event?.slug),
+      title: text(event?.title),
+      description: text(event?.description),
+      image_url: text(event?.image_url),
+      instagram: text(event?.instagram),
+      date: text(event?.date),
+      locationName: text(event?.locationName),
+      address: normalizeAddress(event?.address),
+      policies: {
+        minAge: text(event?.policies?.minAge),
+        requiredDocs: Array.isArray(event?.policies?.requiredDocs)
+          ? event.policies.requiredDocs.filter((doc) => typeof doc === "string")
+          : [],
+        refundPolicy: text(event?.policies?.refundPolicy),
+      },
       platformFee: {
-        percentage: toNumber(raw.event?.platformFee?.percentage),
-        fixed: toNumber(raw.event?.platformFee?.fixed),
+        percentage: toNumber(event?.platformFee?.percentage),
+        fixed: toNumber(event?.platformFee?.fixed),
+      },
+      organizer: {
+        name: text(event?.organizer?.name),
+        slug: text(event?.organizer?.slug),
+        logoUrl: text(event?.organizer?.logoUrl),
       },
     },
-    categories: (raw.categories ?? []).map(normalizeCategory),
-    marketLots: (raw.marketLots ?? []).map(normalizeMarketLot),
+    categories: (raw?.categories ?? []).map(normalizeCategory),
+    marketLots: (raw?.marketLots ?? []).map(normalizeMarketLot),
   };
 }
 
@@ -146,7 +209,8 @@ export const eventsService = {
   ): Promise<SectionResponse[]> => {
     const endpoint =
       lat && lng ? `/client/home-events?lat=${lat}&lng=${lng}` : "/client/home-events";
-    return apiService.get<SectionResponse[]>(endpoint);
+    const sections = await apiService.get<SectionResponse[]>(endpoint);
+    return normalizeSections(sections);
   },
 
   getEventDetail: async (slug: string): Promise<EventDetailResponse> => {

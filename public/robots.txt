@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Block query strings
+Disallow: /*?*
+
+# Block utility paths
+Disallow: /templates/
+Disallow: /functions/
+Disallow: /cookie-policy/
+Disallow: /disclaimer/
+
+# Block private app routes
+Disallow: /conta/
+Disallow: /login/
+Disallow: /meus-ingressos/
+Disallow: /checkout/
+Disallow: /auth-callback/
+Disallow: /completar-registro/
+
+Host: https://reppy.app.br
+Sitemap: https://reppy.app.br/sitemap.xml

@@ -14,10 +14,11 @@ export interface MySaleItem {
   amount:        number;
   platformFee:   number;
   netAmount:     number;
-  escrowStatus:  "pending" | "held" | "released" | "cancelled" | "refunded";
+  escrowStatus:  "pending" | "held" | "withdraw_requested" | "released" | "cancelled" | "refunded";
   canWithdraw:   boolean;
   withdrawBlock: string;
   heldAt:        string;
+  withdrawRequestId?: string;
 }
 
 export interface MySalesResponse {
@@ -27,7 +28,9 @@ export interface MySalesResponse {
 
 export interface WithdrawResponse {
   success:           boolean;
-  withdrawnAmount:   number;
+  requestId:         string;
+  status:            "pending";
+  requestedAmount:   number;
   transactionsCount: number;
   pixKey:            string;
 }
