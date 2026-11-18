@@ -69,75 +69,70 @@ export default function HomePage() {
   return (
     <div className="bg-off-white overflow-x-hidden">
 
-      {/* ── HERO ── */}
-      <section className="relative bg-black min-h-[92vh] flex flex-col justify-between overflow-hidden">
+   {/* ── HERO ── */}
+<section className="relative bg-black min-h-[92svh] flex flex-col justify-between overflow-hidden">
 
-        {/* grain overlay */}
-        <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
-          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "180px" }} />
+  {/* grain overlay */}
+  <div
+    className="absolute inset-0 opacity-[0.035] pointer-events-none"
+    style={{
+      backgroundImage:
+        "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+      backgroundSize: "180px",
+    }}
+  />
 
-       
+  <div className="relative max-w-6xl mx-auto px-5 sm:px-6 w-full flex-1 flex flex-col justify-center gap-8 sm:gap-10 py-16 sm:py-20">
 
-        <div className="relative max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col justify-center gap-10 py-20">
+    {/* headline */}
+    <div className="relative z-10">
+      <h1 className="font-bricolage font-extrabold leading-[0.92] tracking-[-0.05em] whitespace-nowrap">
+        <span className="block text-white text-[clamp(52px,17vw,110px)] lg:text-[clamp(96px,13vw,168px)]">
+          da reppy
+        </span>
+        <span className="block text-primary text-[clamp(52px,17vw,110px)] lg:text-[clamp(96px,13vw,168px)]">
+          PRA VC.
+        </span>
+        <span className="sr-only">
+          Eventos, festas e ingressos universitários perto de você
+        </span>
+      </h1>
+    </div>
 
-     
-
-          {/* headline — Bricolage Grotesque aqui */}
-          <div className="relative z-10">
-            <h1 className="font-bricolage font-extrabold leading-[0.92] whitespace-nowrap">
-              <span
-                className="block text-white"
-                style={{ fontSize: "clamp(72px, 13vw, 168px)", letterSpacing: "-4px" }}
-              >
-                da reppy
-              </span>
-              <span
-                className="block text-primary"
-                style={{ fontSize: "clamp(200px, 13vw, 168px)", letterSpacing: "-4px" }}
-              >
-                PRA VC.
-              </span>
-              <span className="sr-only">
-                Eventos, festas e ingressos universitários perto de você
-              </span>
-            </h1>
-          </div>
-
-          {/* sub + CTA */}
-          <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-end gap-8">
-         
-            <Link
-              href="/eventos"
-              className="group relative inline-flex h-[54px] items-center justify-center overflow-hidden rounded-pill border-2 border-primary font-display font-extrabold tracking-tight text-[15px] shrink-0"
-            >
-              <div className="inline-flex h-full items-center justify-center gap-2 px-7 bg-primary text-black transition duration-500 group-hover:-translate-y-[150%]">
-                explorar eventos
-                <ArrowRight size={15} weight="bold" />
-              </div>
-              <div className="absolute inline-flex h-full w-full translate-y-full items-center justify-center text-primary transition duration-500 group-hover:translate-y-0">
-                <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-black transition duration-500 group-hover:translate-y-0 group-hover:scale-150" />
-                <span className="z-10 inline-flex items-center gap-2">
-                  explorar eventos
-                  <ArrowRight size={15} weight="bold" />
-                </span>
-              </div>
-            </Link>
-          </div>
-
-          {/* imagem — lado direito do hero (desktop) */}
-          <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:-right-12 lg:z-0 lg:pointer-events-none">
-            <Image
-              src="/mao-liquido-verde.png"
-              alt="Mão derramando líquido verde neon"
-              width={1122}
-              height={1402}
-              priority
-              className="h-full w-auto object-contain object-right drop-shadow-[0_0_60px_rgba(27,255,17,0.25)]"
-            />
-          </div>
+    {/* CTA */}
+    <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-end gap-8">
+      <Link
+        href="/eventos"
+        className="group relative inline-flex h-[54px] w-full sm:w-auto items-center justify-center overflow-hidden rounded-pill border-2 border-primary font-display font-extrabold tracking-tight text-[15px] shrink-0"
+      >
+        <div className="inline-flex h-full w-full items-center justify-center gap-2 px-7 bg-primary text-black transition duration-500 group-hover:-translate-y-[150%]">
+          explorar eventos
+          <ArrowRight size={15} weight="bold" />
         </div>
+        <div className="absolute inline-flex h-full w-full translate-y-full items-center justify-center text-primary transition duration-500 group-hover:translate-y-0">
+          <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-black transition duration-500 group-hover:translate-y-0 group-hover:scale-150" />
+          <span className="z-10 inline-flex items-center gap-2">
+            explorar eventos
+            <ArrowRight size={15} weight="bold" />
+          </span>
+        </div>
+      </Link>
+    </div>
 
-      </section>
+    {/* imagem — fundo suave no mobile, lado direito no desktop */}
+    <div className="absolute inset-y-0 -right-20 sm:-right-10 z-0 pointer-events-none opacity-30 sm:opacity-40 lg:opacity-100 lg:-right-12">
+      <Image
+        src="/mao-liquido-verde.png"
+        alt="Mão derramando líquido verde neon"
+        width={1122}
+        height={1402}
+        priority
+        sizes="(max-width: 1024px) 70vw, 45vw"
+        className="h-full w-auto max-w-none object-contain object-right drop-shadow-[0_0_60px_rgba(27,255,17,0.25)]"
+      />
+    </div>
+  </div>
+</section>
 
       {/* ── TICKER ── */}
       <div className="bg-primary border-y-2 border-black py-3 overflow-hidden">
